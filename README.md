@@ -117,13 +117,20 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 
 > 针对 Git commit 00ee2a51，内容可能有落后之处。
 
-- 首先确保有 Docker 和 Docker Compose（`sudo apt install docker.io docker-compose`），然后换国内源，最后启动 daemon（`sudo systemctl start docker`）
+- 安装 Docker 和 Docker Compose
+    - `sudo apt install docker.io docker-compose`
+    - 换国内源
+    - 启动 daemon `sudo systemctl start docker`
 - 生产环境相关的值都统一维护在 `.env` 中了，按需编辑
 - 将 `judger-env` 镜像打包好
-   > 可以进 `./deploy` 然后 `sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
+    - `cd ./deploy`
+    - 调整 `Dockerfile.judge-env` 中的git仓库路径
+        - 无法连接GitHub `pip3 install git+ssh://git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git` 用ssh获取需要本机和gitlab有密钥记录
+        - 原本的GitHub地址 `git+https://github.com/libreliu/pyDigitalWaveTools`
+    - `sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
 - `sudo docker-compose up -d`
     - `-d` 后台运行
-- 第一次的时候，记得手动进 backend 容器，进行一下 `python manage.py migrate` 和 `python manage.py createsuperuser` 的操作，详情参考上面开发环境的指南
+- 第一次部署，需要手动进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户
 
 ### 数据备份和回复
 
