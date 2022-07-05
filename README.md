@@ -127,7 +127,7 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
     - 调整 `Dockerfile.judge-env` 中的git仓库路径
         - 无法连接GitHub `pip3 install git+ssh://git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git` 用ssh获取需要本机和gitlab有密钥记录
         - 原本的GitHub地址 `git+https://github.com/libreliu/pyDigitalWaveTools`
-    - `sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
+    - `rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git && sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
 - `sudo docker-compose up -d`
     - `-d` 后台运行
 - 第一次部署，需要手动进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户

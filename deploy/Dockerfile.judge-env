@@ -3,6 +3,7 @@ LABEL maintainer="libreliu@foxmail.com"
 
 WORKDIR /app
 COPY ./requirements-judger.txt /app
+COPY /home/yxj/.ssh/id_rsa /
 
 ARG USE_APT_MIRROR=no
 ARG USE_PIP_MIRROR=no
@@ -26,7 +27,7 @@ RUN (test ${USE_APT_MIRROR} = yes \
         (pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/) \
         || \
         (echo "pip mirror config untouched.");) \
-    && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git && pip3 install -e pyDigitalWaveTools \
+    && pip3 install -e pyDigitalWaveTools \
     && pip3 install -r requirements-judger.txt
 
 # Add /app/testcase/main.sh by script manually, in case the sh filename changes
