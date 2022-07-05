@@ -8,16 +8,14 @@
     >
       <el-menu-item index="/" id="title">{{ school }}</el-menu-item>
       <el-menu-item index="/">
-        <i class="el-icon-star-off"></i>Home</el-menu-item
+        <i class="el-icon-star-off"></i>主页</el-menu-item
       >
       <el-menu-item index="/problempage/1">
-        <i class="el-icon-menu"></i>Problem</el-menu-item
+        <i class="el-icon-menu"></i>问题</el-menu-item
       >
       <el-menu-item index="/statue">
-        <i class="el-icon-tickets"></i>Status</el-menu-item
+        <i class="el-icon-tickets"></i>状态</el-menu-item
       >
-      <!-- <el-menu-item index="/contest">
-        <i class="el-icon-bell"></i>Contest</el-menu-item> -->
 
       <el-button round id="button" @click="registeropen" v-show="!loggedIn"
         >Register</el-button
@@ -72,9 +70,9 @@
     <transition name="el-fade-in-linear" mode="out-in">
       <router-view id="route"></router-view>
     </transition>
-    <div class="footer">
+    <!-- <div class="footer">
       Verilog OJ
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -90,7 +88,7 @@ export default {
   },
   data() {
     return {
-      school: "USTC",
+      school: "THU",
     };
   },
   computed: mapState(["loggedIn", "userID", "username", "isSuperUser"]),

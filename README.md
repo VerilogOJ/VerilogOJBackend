@@ -131,9 +131,8 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
         - `python manage.py migrate`
         - `python manage.py createsuperuser`
 - 非第一次部署（更新网站内容）
-    - `sudo docker-compose down --rmi local && git pull && sudo docker-compose up --detach`
-    - `git pull && sudo docker-compose build && sudo docker-compose up --detach`
-        - `--build` Build images before starting containers.
+    - `git pull && sudo docker-compose up --detach --build`
+        - `--build` Build images before starting containers. 重新构建依赖的images
         - `--detach` Detached mode: Run containers in the background, print new container names.
 
 ### 数据备份和回复
