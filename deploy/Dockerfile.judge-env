@@ -3,7 +3,6 @@ LABEL maintainer="libreliu@foxmail.com"
 
 WORKDIR /app
 COPY ./requirements-judger.txt /app
-COPY /home/yxj/.ssh/id_rsa /
 
 ARG USE_APT_MIRROR=no
 ARG USE_PIP_MIRROR=no
