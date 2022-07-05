@@ -155,5 +155,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 WEBPATH_PREFIX = 'oj/'
 
 # CAS Related
-USTC_CAS_URL = 'https://passport.ustc.edu.cn'
-USTC_CAS_APP_LOGIN_URL = 'https://verilogoj.ustc.edu.cn{}'
+USTC_CAS_URL = 'https://passport.ustc.edu.cn' # TODO 可能要改成清华的
+# USTC_CAS_APP_LOGIN_URL = 'https://verilogoj.ustc.edu.cn{}'
+USTC_CAS_APP_LOGIN_URL = 'http://166.111.223.67{}'
