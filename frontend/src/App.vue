@@ -69,13 +69,11 @@
         UP
       </div>
     </el-backtop>
-    <!-- >  主体<-->
     <transition name="el-fade-in-linear" mode="out-in">
       <router-view id="route"></router-view>
     </transition>
-    <!-- >  主体<-->
     <div class="footer">
-      Verilog OJ 测试版, 本项目得到了中国科学技术大学 VLab 实验平台的帮助和支持
+      Verilog OJ 测试版
     </div>
   </div>
 </template>
