@@ -1,0 +1,81 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+本功能可以帮助您从 Yaml 中自动导入题目和对应的测试点信息，方便您的部署。
+
+<h2>状态信息</h2>
+
+{{ status_message|linebreaksbr }}
+
+<h2>导入新的 Yaml</h2>
+
+<form action="." method="post">
+    {% csrf_token %}
+    <textarea name="yaml_context" cols="80" rows="15" class="vLargeTextField" required="">
+# A example Yaml file is here
+problems:
+  - name: The first problem
+    description: The first description
+    description_input: description_input
+    description_output: description output
+    template_code_file: 
+      name: template.v
+      content: |-
+        module top_module();
+          // write your code here
+        endmodule
+    description_files:
+      - name: DescFileA.txt
+        content: |-
+          some content
+      - name: DescFileB.txt
+        content: |-
+          another content
+    judge_files:
+      - name: FileA.txt
+        content: |-
+          some content
+      - name: FileB.txt
+        content: |-
+          some content
+    app_data: |-
+      { "signal" : [
+        { "name": "clk",  "wave": "p......" },
+        { "name": "bus",  "wave": "x.34.5x", "data": "head body tail" },
+        { "name": "wire", "wave": "0.1..0." }
+      ]}
+    testcases:
+      - type: SIM
+        grade: 10
+        testcase_files:
+          - name: TestFileA.txt
+            content: |-
+              some content
+          - name: TestFileB.txt
+            content: |-
+              some another content
+      - type: SIM
+        grade: 10
+        testcase_files:
+          - name: TestFileC.txt
+            content: |-
+              test file c
+    
+  - name: The second problem
+    description: The second description
+    description_input: (Optional) description_input
+    description_output: (Optional) description_output
+    template_code_file:
+      name: template.v
+      content: |-
+        module top_module();
+          // write your code here
+        endmodule
+    
+    </textarea>
+    <div class="submit-row">
+        <input type="submit" value="导入" class="default" style="float: left;">
+    </div>
+</form>
+
+{% endblock %}

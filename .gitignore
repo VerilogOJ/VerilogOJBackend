@@ -1,0 +1,27 @@
+**/__pycache__
+venv/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Database for test
+db.sqlite3
+
+# backend file storage
+backend/storage
+
+# backend migrations
+#backend/*/migrations
+
+# backend static file
+backend/static
+
+# backup files
+maintenance/backup-files-volume-*.tar
+maintenance/backup-db-volume-*.tar
+maintenance/backup-db-*.sql
