@@ -122,11 +122,18 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
     -  `sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
    - `cd ..`
 - 第一次部署
-    - `sudo docker-compose up -d`
-        - `-d` 后台运行
-    - 第一次部署需要进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户
+    - `sudo docker-compose up --detach`
+        - `--detach` Detached mode: Run containers in the background, print new container names.
+    - 初始化Django数据库和创建超级用户
+        - 进入backend容器
+            - `sudo docker ps | grep verilogoj_backend`
+            - `sudo docker exec -it <container_id> /bin/sh`
+        - `python manage.py migrate`
+        - `python manage.py createsuperuser`
 - 非第一次部署（更新网站内容）
-    - `sudo docker-compose down --rmi local && sudo docker-compose up -d`
+    - `sudo docker-compose up --detach --build`
+        - `--build` Build images before starting containers.
+        - `--detach` Detached mode: Run containers in the background, print new container names.
 
 ### 数据备份和回复
 
