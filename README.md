@@ -2,13 +2,17 @@
 
 清华大学电子工程系 数字逻辑与处理器基础实验 在线评测平台
 
-## 许可协议
+## 网址
 
-本软件（不包括题目、讨论、新闻等用户生成内容，服务器配置等必要限度的自定义内容，以及第三方库等另有授权的程序组件）采用 [第三版 GNU Affero 通用公共许可证](https://www.gnu.org/licenses/agpl-3.0.html) 。
+- [Verilog OJ](http://166.111.223.67/oj/)
+    - admin账户登陆可以发布题目
+- [接口文档](http://166.111.223.67/oj/api/docs/)
+- [Django 管理](http://166.111.223.67/oj/admin-django/)
+    - 发布通知
 
-同时，向我们提交代码，意味着您同意我们将您的代码部署至位于（或服务于）清华大学电子系的实例上，该实例可能在未来与仓库中的版本存在不同。
+## 开发环境配置
 
-## 开发环境配置 - Ubuntu 20.04
+> Ubuntu server 20.04
 
 ### 安装全局依赖
 
@@ -103,27 +107,26 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 
 ## 生产环境部署
 
-- 安装 Docker 和 Docker Compose
+- 安装`Docker`和`Docker Compose`
     - `sudo apt install docker.io docker-compose`
-    - 换国内源
-    - 启动 daemon `sudo systemctl start docker`
-- 生产环境相关的值都统一维护在 `.env` 中了，按需编辑
-- 将 `judger-env` 镜像打包好
-    - (optional) 调整 `Dockerfile.judge-env` 中的git仓库路径
-        - 无法连接GitHub `pip3 install git+ssh://git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git` 用ssh获取需要本机和gitlab有密钥记录
-        - 原本的GitHub地址 `git+https://github.com/libreliu/pyDigitalWaveTools`
-    - `cd ./deploy && rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git && sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
-- `cd .. && sudo docker-compose up -d`
-    - `-d` 后台运行
-- 第一次部署，需要手动进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户
-
-### 网址
-
-- [Verilog OJ](http://166.111.223.67/oj/)
-    - admin账户登陆可以发布题目
-- [接口文档](http://166.111.223.67/oj/api/docs/)
-- [Django 管理](http://166.111.223.67/oj/admin-django/)
-    - 发布通知
+- 启动daemon `sudo systemctl start docker`
+- 生产环境相关的值都统一维护在`.env`中 按需编辑
+- 将`judger-env`镜像打包
+    - `cd ./deploy`
+    - 安装python包`pyDigitalWaveTools`
+        - (optional) 调整`Dockerfile.judge-env`中的安装方式
+            - 原本安装方式 `pip3 install git+https://github.com/libreliu/pyDigitalWaveTools`
+            - 无法连接GitHub的话
+                - 手动clone `rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git`
+                - 改pip3的安装方式`pip3 install -e pyDigitalWaveTools`
+    -  `sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
+   - `cd ..`
+- 第一次部署
+    - `sudo docker-compose up -d`
+        - `-d` 后台运行
+    - 第一次部署需要进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户
+- 非第一次部署（更新网站内容）
+    - `sudo docker-compose down --rmi local && sudo docker-compose up -d`
 
 ### 数据备份和回复
 
