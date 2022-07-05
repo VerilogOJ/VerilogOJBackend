@@ -73,7 +73,7 @@
       <router-view id="route"></router-view>
     </transition>
     <div class="footer">
-      Verilog OJ 测试版 220605 1557
+      Verilog OJ 测试版
     </div>
   </div>
 </template>
