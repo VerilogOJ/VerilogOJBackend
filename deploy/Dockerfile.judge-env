@@ -26,7 +26,7 @@ RUN (test ${USE_APT_MIRROR} = yes \
         (pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/) \
         || \
         (echo "pip mirror config untouched.");) \
-    && pip3 install git+ssh://git.tsinghua.edu.cn/eeverilogoj/pyDigitalWaveTools.git \
+    && GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa' && pip3 install git+ssh://git.tsinghua.edu.cn/eeverilogoj/pyDigitalWaveTools.git \
     && pip3 install -r requirements-judger.txt
 
 # Add /app/testcase/main.sh by script manually, in case the sh filename changes
