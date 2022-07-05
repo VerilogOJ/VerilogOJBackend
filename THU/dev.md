@@ -55,7 +55,7 @@ python -m pip install -r requirements.txt # once
 # 设置一些必须的环境变量
 # 如果不用 Docker 判题环境，就需要将 backend/backend/settings/dev.py 中的 `use_docker` 修改为False
 # 否则会报缺少一些 Docker 相关的环境变量
-VERILOG_OJ_DEV=TRUE python manage.py migrate
+VERILOG_OJ_DEV=TRUE python manage.py migrate # once
 
 # 此处创建您测试环境的超级用户的用户名和密码
 # 在后台管理界面也会用到，请妥善保管

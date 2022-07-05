@@ -3,7 +3,7 @@ LABEL maintainer="libreliu@foxmail.com"
 
 WORKDIR /app
 COPY ./requirements-judger.txt /app
-COPY ./pyDigitalWaveTools/ /app
+ADD ./pyDigitalWaveTools/ /app/pyDigitalWaveTools
 
 ARG USE_APT_MIRROR=no
 ARG USE_PIP_MIRROR=no
