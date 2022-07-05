@@ -1,15 +1,10 @@
 <template>
   <div>
-    <el-row class="home-title">
-      <i class="el-icon-thumb"></i>
-      快速搜索
-    </el-row>
-
     <el-row>
       <el-col :offset="1" :span="22">
         <el-autocomplete
           v-model="input"
-          placeholder="输入题号，快速跳转"
+          placeholder="快速跳转题目"
           prefix-icon="el-icon-search"
           :fetch-suggestions="querySearch"
           @keyup.enter.native="jumpToProblem(-1)"
@@ -50,8 +45,10 @@ export default {
       this.jumpToProblem(item.id);
     },
     prettyName: function (i) {
-      let prettyId = this.allProblems[i].logic_id != null ? 
-                    String(this.allProblems[i].logic_id) : "N/A";
+      let prettyId =
+        this.allProblems[i].logic_id != null
+          ? String(this.allProblems[i].logic_id)
+          : "N/A";
       return prettyId + " | " + this.allProblems[i].name;
     },
     getAdvice: function (prefix) {
@@ -65,12 +62,11 @@ export default {
       }
 
       for (let i = 0; i < this.allProblems.length; i++) {
-        let prettyId = this.allProblems[i].logic_id != null ? 
-            String(this.allProblems[i].logic_id) : "N/A";
-        let suggestions = [
-          prettyId,
-          this.allProblems[i].name,
-        ];
+        let prettyId =
+          this.allProblems[i].logic_id != null
+            ? String(this.allProblems[i].logic_id)
+            : "N/A";
+        let suggestions = [prettyId, this.allProblems[i].name];
         for (let j = 0; j < suggestions.length; j++) {
           if (
             suggestions[j].toLowerCase().indexOf(prefix.toLowerCase()) === 0

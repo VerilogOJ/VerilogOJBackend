@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row class="home-title">
-      <i class="el-icon-s-comment"></i>
-      通知公告
+      <i class="el-icon-data-board"></i>
+      公告
     </el-row>
 
     <el-row>

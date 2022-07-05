@@ -27,7 +27,7 @@ export default new Router({
       path: "/",
       name: "homepage",
       component: () =>
-        import( /* webpackChunkName: "main" */ "@/components/main"),
+        import(/* webpackChunkName: "main" */ "@/components/main"),
     },
 
     // News
@@ -46,13 +46,13 @@ export default new Router({
       path: "/user/:userid",
       name: "user",
       component: () =>
-        import( /* webpackChunkName: "user" */ "@/components/mainpage/user"),
+        import(/* webpackChunkName: "user" */ "@/components/mainpage/user"),
     },
     {
       path: "/setting",
       name: "setting",
       component: () =>
-        import( /* webpackChunkName: "user" */ "@/components/mainpage/setting"),
+        import(/* webpackChunkName: "user" */ "@/components/mainpage/setting"),
     },
 
     // 题目列表和题目细节
@@ -141,7 +141,7 @@ export default new Router({
     {
       path: "/guide/combinational",
       name: "combGuide",
-      component: () => import("@/components/guide/combinational")
+      component: () => import("@/components/guide/combinational"),
     },
 
     // 管理员界面
@@ -149,14 +149,14 @@ export default new Router({
       path: "/admin",
       name: "admin",
       component: () =>
-        import( /* webpackChunkName: "admin" */ "@/components/mainpage/admin"),
+        import(/* webpackChunkName: "admin" */ "@/components/mainpage/admin"),
     },
 
     // 404 Page
     {
       path: "*",
       component: () =>
-        import( /* webpackChunkName: "err" */ "@/components/error/notfound"),
+        import(/* webpackChunkName: "err" */ "@/components/error/notfound"),
     },
     //   {
     //     path: '/contest',

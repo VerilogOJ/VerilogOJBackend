@@ -237,7 +237,8 @@ export default {
         for (const file of this.descriptionFileList)
           this.addproblemform.description_files.push(file.response.data.id);
         if (this.templateCodeFileList.length == 1)
-          this.addproblemform.template_code_file = this.templateCodeFileList[0].response.data.id;
+          this.addproblemform.template_code_file =
+            this.templateCodeFileList[0].response.data.id;
         for (const file of this.judgeFileList)
           this.addproblemform.judge_files.push(file.response.data.id);
 

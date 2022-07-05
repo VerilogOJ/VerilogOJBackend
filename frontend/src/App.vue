@@ -7,22 +7,22 @@
       id="nav"
     >
       <el-menu-item index="/" id="title">{{ school }}</el-menu-item>
-      <el-menu-item index="/">
-        <i class="el-icon-star-off"></i>主页</el-menu-item
-      >
+      <el-menu-item index="/"> <i class="el-icon-house"></i>主页</el-menu-item>
       <el-menu-item index="/problempage/1">
-        <i class="el-icon-menu"></i>问题</el-menu-item
-      >
+        <i class="el-icon-tickets"></i>
+        问题
+      </el-menu-item>
       <el-menu-item index="/statue">
-        <i class="el-icon-tickets"></i>状态</el-menu-item
-      >
+        <i class="el-icon-finished"></i>
+        提交历史
+      </el-menu-item>
 
-      <el-button round id="button" @click="registeropen" v-show="!loggedIn"
-        >Register</el-button
-      >
-      <el-button round id="button" @click="loginopen" v-show="!loggedIn"
-        >Login</el-button
-      >
+      <el-button round id="button" @click="registeropen" v-show="!loggedIn">
+        注册
+      </el-button>
+      <el-button round id="button" @click="loginopen" v-show="!loggedIn">
+        登陆
+      </el-button>
 
       <el-dropdown
         id="user"
@@ -32,16 +32,16 @@
         :show-timeout="100"
         split-button
       >
-        <span class="el-dropdown-link">Welcome, {{ username }}</span>
+        <span class="el-dropdown-link">{{ username }}</span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="home">Home</el-dropdown-item>
+          <el-dropdown-item command="home"> 主页 </el-dropdown-item>
           <!-- <el-dropdown-item command="submittion">Submittion</el-dropdown-item> -->
-          <el-dropdown-item command="setting">Setting</el-dropdown-item>
+          <el-dropdown-item command="setting"> 个人信息更新 </el-dropdown-item>
           <!-- <el-dropdown-item command="classes" divided>Class</el-dropdown-item> -->
-          <el-dropdown-item command="admin" divided v-show="isSuperUser"
-            >Admin</el-dropdown-item
-          >
-          <el-dropdown-item command="logout" divided>Logout</el-dropdown-item>
+          <el-dropdown-item command="admin" divided v-show="isSuperUser">
+            管理界面
+          </el-dropdown-item>
+          <el-dropdown-item command="logout" divided>登出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-menu>

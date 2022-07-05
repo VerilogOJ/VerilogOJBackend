@@ -14,12 +14,22 @@
           </el-row>
           <el-divider></el-divider>
           <el-descriptions>
-            <el-descriptions-item label="UID">{{ userid }}</el-descriptions-item>
-            <el-descriptions-item label="用户名">{{ username }}</el-descriptions-item>
+            <el-descriptions-item label="UID">{{
+              userid
+            }}</el-descriptions-item>
+            <el-descriptions-item label="用户名">{{
+              username
+            }}</el-descriptions-item>
             <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
-            <el-descriptions-item label="学号">{{student_id}}</el-descriptions-item>
-            <el-descriptions-item label="管理员">{{is_superuser ? "是" : "否"}}</el-descriptions-item>
-            <el-descriptions-item label="总分">{{score}}</el-descriptions-item>
+            <el-descriptions-item label="学号">{{
+              student_id
+            }}</el-descriptions-item>
+            <el-descriptions-item label="管理员">{{
+              is_superuser ? "是" : "否"
+            }}</el-descriptions-item>
+            <el-descriptions-item label="总分">{{
+              score
+            }}</el-descriptions-item>
           </el-descriptions>
           <el-divider></el-divider>
           <el-row>
@@ -50,13 +60,9 @@
             >{{ undone_problem.logic_id }}</el-button
           >
         </el-card>
-        
-
-
       </el-col>
     </el-row>
   </div>
-
 </template>
 
 <script>
@@ -92,7 +98,7 @@ export default {
       }
 
       return submittedId;
-    }
+    },
   },
   watch: {
     userid: function () {
@@ -117,7 +123,9 @@ export default {
           this.username = response.data.username;
           if (response.data.last_name == "" && response.data.first_name == "")
             this.name = this.username;
-          else this.name = response.data.last_name + " " + response.data.first_name;
+          else
+            this.name =
+              response.data.last_name + " " + response.data.first_name;
           this.email = response.data.email;
           if (response.data.student_id == null) this.student_id = "";
           else this.student_id = response.data.student_id;

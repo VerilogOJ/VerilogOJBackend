@@ -32,12 +32,23 @@
           @cell-click="problemclick"
           size="medium"
         >
-          <el-table-column prop="logic_id" label="ID" :width="50"></el-table-column>
+          <el-table-column
+            prop="logic_id"
+            label="ID"
+            :width="50"
+          ></el-table-column>
           <el-table-column prop="status" label="状态" :width="80">
             <template slot-scope="scope1">
-                <i v-if="scope1.row.status=='1'" class="el-icon-info" style="color: red"></i>
-                <i v-else-if="scope1.row.status=='2'" class="el-icon-remove"></i>
-                <i v-else class="el-icon-success"  style="color: green"></i>
+              <i
+                v-if="scope1.row.status == '1'"
+                class="el-icon-info"
+                style="color: red"
+              ></i>
+              <i
+                v-else-if="scope1.row.status == '2'"
+                class="el-icon-remove"
+              ></i>
+              <i v-else class="el-icon-success" style="color: green"></i>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="题名"></el-table-column>
@@ -202,11 +213,10 @@ export default {
       currenttag: "",
       searchtext: "",
       addProblemDialog: false,
-
     };
   },
   created() {
-      this.currentpage = this.$route.params.pageid;
+    this.currentpage = this.$route.params.pageid;
   },
   computed: {
     ...mapState(["loggedIn", "userID", "username", "isSuperUser"]),
@@ -215,26 +225,26 @@ export default {
     openCombGuide() {
       this.$router.push({ name: "combGuide" });
     },
-    isInArray: function(arr, value) {
-        for(var i=0; i< arr.length; i++) {
-            if(value === arr[i]["user_id"]) {
-                return true;
-            }
+    isInArray: function (arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]["user_id"]) {
+          return true;
         }
-        return false;
+      }
+      return false;
     },
     // 重新获取题目列表信息
     refresh() {
-        this.currentpage = this.$route.params.pageid;
+      this.currentpage = this.$route.params.pageid;
 
-        this.$axios
+      this.$axios
         .get(
           "/problems/?limit=" +
             this.pagesize +
             "&offset=" +
             (this.currentpage - 1) * this.pagesize
-            // "&search=" +
-            // this.searchtext
+          // "&search=" +
+          // this.searchtext
         )
         .then((response) => {
           for (var i = 0; i < response.data.results.length; i++) {
@@ -246,32 +256,49 @@ export default {
             //   5: "ExtremelyHard"
             // };
             // response.data.results[i].level = mapping[response.data.results[i].level];
-            if (this.loggedIn && this.isInArray(response.data.results[i].ac_users, this.userID)) {
-                response.data.results[i].status = 3;
-            } else if (this.loggedIn && this.isInArray(response.data.results[i].submitted_users, this.userID)) {
-                response.data.results[i].status = 1;
+            if (
+              this.loggedIn &&
+              this.isInArray(response.data.results[i].ac_users, this.userID)
+            ) {
+              response.data.results[i].status = 3;
+            } else if (
+              this.loggedIn &&
+              this.isInArray(
+                response.data.results[i].submitted_users,
+                this.userID
+              )
+            ) {
+              response.data.results[i].status = 1;
             } else {
-                response.data.results[i].status = 2;
+              response.data.results[i].status = 2;
             }
             // response.data.results[i].status = response.data.results[i].level;
-            if (response.data.results[i].level == "1") response.data.results[i].level = "Easy";
+            if (response.data.results[i].level == "1")
+              response.data.results[i].level = "Easy";
             if (response.data.results[i].level == "2")
               response.data.results[i].level = "Medium";
-            if (response.data.results[i].level == "3") response.data.results[i].level = "Hard";
+            if (response.data.results[i].level == "3")
+              response.data.results[i].level = "Hard";
             if (response.data.results[i].level == "4")
               response.data.results[i].level = "VeryHard";
             if (response.data.results[i].level == "5")
               response.data.results[i].level = "ExtremelyHard";
             // response.data.results[i].level = "Easy";
 
-            response.data.results[i].ac = response.data.results[i].ac_users.length;
+            response.data.results[i].ac =
+              response.data.results[i].ac_users.length;
             response.data.results[i].submitted =
               response.data.results[i].submitted_users.length;
             response.data.results[i].rate =
-              response.data.results[i].ac + " / " + response.data.results[i].submitted;
+              response.data.results[i].ac +
+              " / " +
+              response.data.results[i].submitted;
 
-            if (!response.data.results[i].tags) response.data.results[i].tags = ["无"];
-            else response.data.results[i].tags = response.data.results[i].tags.split("|");
+            if (!response.data.results[i].tags)
+              response.data.results[i].tags = ["无"];
+            else
+              response.data.results[i].tags =
+                response.data.results[i].tags.split("|");
             // response.data.results[i].tags = ["无"];
           }
 

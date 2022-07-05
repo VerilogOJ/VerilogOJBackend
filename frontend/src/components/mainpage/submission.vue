@@ -69,7 +69,9 @@
                     word-wrap: break-word;
                     word-break: normal;
                   "
-                >{{ result.log }}</p>
+                >
+                  {{ result.log }}
+                </p>
 
                 <h3>波形</h3>
                 <wavedrom
