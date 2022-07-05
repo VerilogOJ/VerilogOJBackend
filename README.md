@@ -124,7 +124,6 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 - `sudo docker-compose up -d`
     - `-d` 后台运行
 - 第一次的时候，记得手动进 backend 容器，进行一下 `python manage.py migrate` 和 `python manage.py createsuperuser` 的操作，详情参考上面开发环境的指南
-    - 
 
 ### 数据备份和回复
 
