@@ -1,7 +1,5 @@
 # 前端
 
-
-
 ## 本地运行
 
 ```
@@ -9,10 +7,7 @@ npm install
 npm run dev
 ```
 
-
-
 ## 部署
-
 
 编译完毕后，网站文件保存在dist目录中，接下来部署到服务器中
 
@@ -54,8 +49,6 @@ server{
 
 其他配置请自行参考Nginx配置
 
-
-
 ## 项目框架
 
 ### src：
@@ -77,7 +70,6 @@ server{
 ├── register.vue  注册控件
 └── router
     └── index.js  网站的路由信息
-
 ```
 
 ### admin（管理员控件）:
@@ -125,8 +117,6 @@ server{
 └── problemdetail.vue            //单个problem的详细界面
 ```
 
-
-
 ### utils:
 
 ```
@@ -148,9 +138,6 @@ server{
 ├── welcomemessage.vue		//主页的欢迎控件
 └── wikidetail.vue
 ```
-
-
-
 
 ### wiki（暂不用）:
 
@@ -194,6 +181,3 @@ server{
 ├── contestsubmit.vue
 └── contesttutorial.vue
 ```
-
-
-

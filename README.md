@@ -109,14 +109,21 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
     - 启动 daemon `sudo systemctl start docker`
 - 生产环境相关的值都统一维护在 `.env` 中了，按需编辑
 - 将 `judger-env` 镜像打包好
-    - `cd ./deploy`
-    - 调整 `Dockerfile.judge-env` 中的git仓库路径
+    - (optional) 调整 `Dockerfile.judge-env` 中的git仓库路径
         - 无法连接GitHub `pip3 install git+ssh://git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git` 用ssh获取需要本机和gitlab有密钥记录
         - 原本的GitHub地址 `git+https://github.com/libreliu/pyDigitalWaveTools`
-    - `rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git && sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
-- `sudo docker-compose up -d`
+    - `cd ./deploy && rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git && sudo docker build . -f Dockerfile.judge-env --build-arg USE_APT_MIRROR=yes --build-arg USE_PIP_MIRROR=yes -t judger-env:v1`
+- `cd .. && sudo docker-compose up -d`
     - `-d` 后台运行
 - 第一次部署，需要手动进backend容器，执行`python manage.py migrate`和`python manage.py createsuperuser`的操作创建Django数据库和超级用户
+
+### 网址
+
+- [Verilog OJ](http://166.111.223.67/oj/)
+    - admin账户登陆可以发布题目
+- [接口文档](http://166.111.223.67/oj/api/docs/)
+- [Django 管理](http://166.111.223.67/oj/admin-django/)
+    - 发布通知
 
 ### 数据备份和回复
 
