@@ -6,9 +6,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile.nginx
     ports:
-      - "40000:80" # 前端发请求到宿主机的40000端口 宿主机的40000端口接受请求 转发到nginx容器的80端口 进一步转发到http://backend:8000/oj/api/
+      # 前端发请求到宿主机的40000端口 宿主机的40000端口接受请求 由Docker转发到nginx容器的80端口 进一步转发到http://backend:8000/oj/api/
+      # QUESTION 这个backend是个啥？
+      - "40000:80"
 
-  # api address on 0.0.0.0:8000 # 从Dockerfile.django的`gunicorn -b`看出来的
+  # API地址为 0.0.0.0:8000 在Dockerfile.django的`gunicorn -b`中设置
   backend:
     build:
       context: ./backend
@@ -16,7 +18,7 @@ services:
       args:
         USE_PIP_MIRROR: "yes"
         USE_APK_MIRROR: "yes"
-        USE_MYSQL: "yes"
+        USE_MYSQL: "yes" # 生产环境使用数据库而不是SQLite
     environment:
       VERILOG_OJ_HOST_STATIC: "yes"
       #VERILOG_OJ_PROD_DEBUG: "yes"
@@ -37,7 +39,7 @@ services:
     depends_on:
       - "db"
       - "mqserver"
-      - "judgeworker"  # consumer starts first
+      - "judgeworker"
       - "judger-env"
 
   # Fix bug on Django entering Chinese characters

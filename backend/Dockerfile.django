@@ -55,5 +55,12 @@ RUN (test ${USE_PIP_MIRROR} = yes \
 #        (echo "Skipped MySQL setup."))
 
 # Make sure env are set before you do this
-# -b ADDRESS, --bind ADDRESS
-ENTRYPOINT ["gunicorn", "--workers=4", "--log-file=-", "--error-logfile=-", "--capture-output", "--access-logfile=-", "-b", "0.0.0.0:8000", "backend.wsgi:application"]
+ENTRYPOINT ["gunicorn", "--workers=4", "--log-file=-", "--error-logfile=-", "--capture-output", "--access-logfile=-", "--bind", "0.0.0.0:8000", "backend.wsgi:application"]
+# Gunicorn是基于unix系统，被广泛应用的高性能的Python WSGI HTTP Server。用来解析HTTP请求的网关服务。
+# 它通常是在反向代理/负载均衡（如nginx）和一个web 应用（比如Django）之间。
+# usage: gunicorn [OPTIONS] [APP_MODULE]
+# `-w INT, --workers INT` The number of worker processes for handling requests.
+# `--error-logfile FILE, --log-file FILE` The Error log file to write to. [-]
+# `--capture-output` Redirect stdout/stderr to specified file in :ref:`errorlog`. [False]
+# `--access-logfile FILE` The Access log file to write to. [None]
+# `-b ADDRESS, --bind ADDRESS` The socket to bind. [['127.0.0.1:8000']]
