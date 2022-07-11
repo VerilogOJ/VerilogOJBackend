@@ -1,18 +1,13 @@
 version: "3.7"
 
 services:
-  # public port 80, the only port exposed
-  web:
+  backend-nginx:
     build:
-      context: ./frontend
+      context: ./backend
       dockerfile: Dockerfile.nginx
-      args:
-        USE_NPM_MIRROR: "yes"
     ports:
       - "80:80"
-    depends_on:
-      - "backend"
-  
+
   # api address on 0.0.0.0:8000
   backend:
     build:
@@ -43,6 +38,7 @@ services:
       - "db"
       - "mqserver"
       - "judgeworker"  # consumer starts first
+      - "judger-env"
 
   # Fix bug on Django entering Chinese characters
   # - The database connection settings only works with conn params
@@ -54,7 +50,6 @@ services:
     # - So no need to alter Django stuff, probably
     # - http://mysql.rjweb.org/doc.php/limits#767_limit_in_innodb_indexes
     image: "mysql:5.7"
-
     # Notice the env below will only useful when no db file is given
     environment:
       MYSQL_ROOT_PASSWORD: ${mysql_root_password}
@@ -67,7 +62,6 @@ services:
 
   mqserver:
     image: "rabbitmq:3.8-management"
-
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: ${rabbitmq_password}
@@ -95,11 +89,19 @@ services:
       DOCKER_HOST_DIR: ${docker_host_dir}
     depends_on:
       - "mqserver"
-
     # Bind mount to control host docker & map a dir so host can fetch easily
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${docker_judger_host_path}:${docker_host_dir}
+
+  judger-env:
+    image: judger-env:v1
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile.judge-env
+      args:
+        USE_PIP_MIRROR: "yes"
+        USE_APT_MIRROR: "yes"
 
 volumes:
   db-volume:

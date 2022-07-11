@@ -1,4 +1,4 @@
-# Verilog OJ
+# Verilog OJ 后端
 
 清华大学电子工程系 数字逻辑与处理器基础实验 在线评测平台
 
@@ -113,8 +113,8 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 - 生产环境相关的值都统一维护在`.env`中 按需编辑
 - 将`judger-env`镜像打包
     - `cd ./deploy`
-    - 安装python包`pyDigitalWaveTools`
-        - (optional) 调整`Dockerfile.judge-env`中的安装方式
+    - (optional 已经安装过了) 安装python包`pyDigitalWaveTools`
+        - 调整`Dockerfile.judge-env`中的安装方式
             - 原本安装方式 `pip3 install git+https://github.com/libreliu/pyDigitalWaveTools`
             - 无法连接GitHub的话
                 - 手动clone `rm -rf pyDigitalWaveTools && git clone git@git.tsinghua.edu.cn:eeverilogoj/pyDigitalWaveTools.git`

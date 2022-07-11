@@ -1,0 +1,6 @@
+# 开一个nginx的image 将当前目录下的nginx-backend.conf复制到nginx的配置文件夹下 这样就开始监听端对应口了
+# 专门负责api的处理
+FROM nginx:stable-alpine
+
+COPY nginx-backend.conf /etc/nginx/conf.d/default.conf
+# 拷贝到的路径需要和nginx-backend.conf中的root一致
