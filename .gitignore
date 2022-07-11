@@ -25,5 +25,3 @@ backend/static
 maintenance/backup-files-volume-*.tar
 maintenance/backup-db-volume-*.tar
 maintenance/backup-db-*.sql
-
-deploy/pyDigitalWaveTools
