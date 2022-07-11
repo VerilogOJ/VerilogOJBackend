@@ -55,4 +55,5 @@ RUN (test ${USE_PIP_MIRROR} = yes \
 #        (echo "Skipped MySQL setup."))
 
 # Make sure env are set before you do this
+# -b ADDRESS, --bind ADDRESS
 ENTRYPOINT ["gunicorn", "--workers=4", "--log-file=-", "--error-logfile=-", "--capture-output", "--access-logfile=-", "-b", "0.0.0.0:8000", "backend.wsgi:application"]

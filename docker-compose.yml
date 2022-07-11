@@ -6,9 +6,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile.nginx
     ports:
-      - "80:80"
+      - "40000:80" # 前端发请求到宿主机的40000端口 宿主机的40000端口接受请求 转发到nginx容器的80端口 进一步转发到http://backend:8000/oj/api/
 
-  # api address on 0.0.0.0:8000
+  # api address on 0.0.0.0:8000 # 从Dockerfile.django的`gunicorn -b`看出来的
   backend:
     build:
       context: ./backend
