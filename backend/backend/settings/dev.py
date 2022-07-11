@@ -44,7 +44,7 @@ JUDGER_CONFIG = {
     'url_host': 'http://127.0.0.1:8000/oj',# here trailing / will affect performance, since
                                            # django will do 301 on this
     'judger_secret': JUDGER_SECRET,
-    'use_docker': True,                    # True if run in docker, False otherwise
+    'use_docker': False,                    # True if run in docker, False otherwise
     'docker_image': 'judger-env:v1',
     'docker_judger_host_path': None,       # Assigned below
     'docker_host_dir': None,               # -v ${docker_judger_host_path}:${docker_host_dir}

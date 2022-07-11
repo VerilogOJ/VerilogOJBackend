@@ -41,6 +41,7 @@ python -m pip install -r requirements.txt # once
 
 # 如果不用 Docker 判题环境，需要将 backend/backend/settings/dev.py 中的 `use_docker` 修改为False
 # 否则会报缺少一些 Docker 相关的环境变量
+# 开发默认False 生产默认True
 VERILOG_OJ_DEV=TRUE python manage.py migrate
 
 # 此处创建您测试环境的超级用户的用户名和密码
@@ -110,10 +111,16 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 
 ### 部署成功
 
+`sudo docker ps`可以看到有image为`verilogojbackend_backend-nginx` `verilogojbackend_backend` `verilogojbackend_judgeworker`  `rabbitmq:3.8-management` `mysql:5.7`的容器在跑
+
 - API <http://166.111.223.67:40000/oj/api/>
 - 查看接口文档 <http://166.111.223.67:40000/oj/api/docs/>
 - Django管理 <http://166.111.223.67:40000/oj/admin-django/>
     - 在<http://166.111.223.67/oj/admin-django/problem/problem/import_yaml>中逐个复制粘贴仓库目录下`test-problems`内的资源文件内容，提交，即可在前端看到题目
+
+### env说明
+
+TODO
 
 ### 数据备份和回复
 
