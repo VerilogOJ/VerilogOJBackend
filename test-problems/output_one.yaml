@@ -509,3 +509,5 @@ problems:
 
         # 得到波形的WaveJSON app_data.txt
         python3 ./testcase/vcd_visualize.py
+        # 得到Verilog文件生成的逻辑电路图
+        

@@ -55,7 +55,9 @@ JUDGER_CONFIG = {
     'final_score': './score.txt',          # the final score, in integer
     'submit_logs': True,
     'submit_appdata': True,
-    'appdata_path': './appdata.txt',       # app data (if got)
+    'appdata_path': './appdata.txt',       # app data (if got) # 生成的WaveJSON
+    'submit_logic_circuit_data': True,
+    'logic_circuit_data_path': './logic_circuit.pdf',
     'possible_error_path': './possible_error.txt',           # The possible error collected
     'url_host': 'http://backend:8000/oj',  # here trailing / will affect performance, since
                                            # django will do 301 on this

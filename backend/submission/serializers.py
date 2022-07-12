@@ -17,7 +17,7 @@ class SubmissionResultPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubmissionResult
         #fields = '__all__'
-        exclude = ['app_data', 'log']
+        exclude = ['app_data', 'log'] # TODO 这里是否需要添加logic_circuit_data
 
 class SubmissionSerializer(serializers.ModelSerializer):
     problem_belong = ProblemSerializer(source='problem', read_only=True)
