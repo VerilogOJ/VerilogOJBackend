@@ -32,5 +32,5 @@ RUN (test ${USE_APT_MIRROR} = yes \
        )
 
 ENTRYPOINT [ "celery", "-A", "judge", "worker", "-l", "INFO", "--concurrency=10" ]
-#执行评测任务这一步是通过dramatiq完成异步任务分配的（旧版用的是celery），会调用函数judge.py(./judge/judge.py)，进一步将评测任务分配给某个评测环境（服务器）、执行评测，将评测结果以及其他信息保存到数据库（Model）中。
-#--concurrency=10表示最多能够同时处理任务的工作进程数量为10， -l代表log等级为INFO
+# 执行评测任务这一步是通过dramatiq完成异步任务分配的（旧版用的是celery），会调用函数judge.py(./judge/judge.py)，进一步将评测任务分配给某个评测环境（服务器）、执行评测，将评测结果以及其他信息保存到数据库（Model）中。（TODO judger.py 已经不用了 此信息需要更新）
+# --concurrency=10表示最多能够同时处理任务的工作进程数量为10， -l代表log等级为INFO

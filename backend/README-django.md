@@ -1,4 +1,4 @@
-# Django Structure
+# Django结构
 
 https://www.django-rest-framework.org/
 
@@ -22,3 +22,7 @@ https://www.django-rest-framework.org/
 
 - `backend/venv/` 临时的Python虚拟环境
 - `backend/storage/`
+
+## 例子
+
+查看[公告数据结构](./news/README.md)

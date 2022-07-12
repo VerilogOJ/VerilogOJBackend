@@ -1,4 +1,6 @@
-# 快速上手开发
+# Django例子
+
+app为一个单文件夹，其中可以定义数据结构和相关的操作。
 
 ## 结构
 
@@ -9,8 +11,8 @@
 - `views.py`
     - 定义如何获取/修改数据
 - `serializers.py`
+    - 定义如何获取/修改数据
     - https://www.django-rest-framework.org/
-    - 
 
 ---
 
