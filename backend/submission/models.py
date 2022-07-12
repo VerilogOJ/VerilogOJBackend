@@ -99,7 +99,7 @@ class SubmissionResult(models.Model):
     grade = models.IntegerField(help_text='本测试点所得的分数')
     log = models.TextField(help_text='The log generated along the process', blank=True)
     app_data = models.TextField(help_text='Data associated with this result (waveform, etc)', blank=True)
-    
+    logic_circuit_data = models.ImageField(help_text='由用户上传的verilog代码生成的逻辑级电路图', blank=True)
     
     class Meta:
         unique_together = (('submission', 'testcase'),)

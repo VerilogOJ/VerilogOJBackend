@@ -1,9 +1,8 @@
 # TODO
 
-- 了解cerly 在Dockerfile.judger下方添加简介
-    - 添加Celery 使用 `task_always_eager` + pdb 来进行调试。
 - 添加逻辑仿真图生成
 - 添加电路元件库映射图
+- 把仓库中用不到的文件删一删 比如judger里面的东西都不需要
 
 ---
 

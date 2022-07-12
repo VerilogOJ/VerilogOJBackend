@@ -51,6 +51,7 @@ def push_result(result, submission_id, testcase_id, submission_result_id, judge_
                 result['log_err'], result['log_out']),
             'status': 'DONE',
             'app_data': result['appdata'] if judge_config['submit_appdata'] else 'N/A',
+            'logic_circuit_data': result['logic_circuit_data'],
             'possible_failure': result['possible_failure']
         })
         #print(r.text)
@@ -125,6 +126,7 @@ def prepare_and_run(detail, judge_config):
             log_out = "Suppressed due to submit_logs in judge configurations"
             log_err = "Suppressed due to submit_logs in judge configurations"
 
+        # 生成波形图
         appdata = ""
         appdata_file_path = os.path.join(BASE_PATH, judge_config['appdata_path'])
         try:

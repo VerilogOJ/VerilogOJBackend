@@ -80,4 +80,3 @@ class LocalExecutor(BaseExecutor):
                 'app_data': appdata if self.judger_config['submit_appdata'] else 'N/A',
                 'possible_failure': possible_errors[0] if len(possible_errors) > 0 else "NONE"
             })
-

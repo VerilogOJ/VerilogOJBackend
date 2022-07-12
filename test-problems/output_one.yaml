@@ -479,26 +479,33 @@ problems:
     - name: main.sh
       content: |-
         #!/bin/bash
+        # 跑一遍正确答案得到参考
         iverilog ./testcase/testbench.v ./problem/code_ref.v -o ref_run
         vvp ref_run
         mv out.vcd out_ref.vcd
+
+        # 跑用户代码
         iverilog ./testcase/testbench.v ./submit/code.v -o code_run
-        if [ $? -ne 0 ]; then
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "CE" > possible_error.txt
           exit 1
         fi
         vvp code_run
-        if [ $? -ne 0 ]; then
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "CE" > possible_error.txt
           exit 1
         fi
         mv out.vcd out_code.vcd
-        python3 ./testcase/vcd_main.py         # This will compare out_ref.vcd and out_code.vcd
-        if [ $? -ne 0 ]; then
+
+        # 比较参考波形和用户波形
+        python3 ./testcase/vcd_main.py
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "0" > score.txt
           echo "WA" > possible_error.txt
-        else
+        else # 程序正常结束
           echo "10" > score.txt
           echo "NONE" > possible_error.txt
         fi
-        python3 ./testcase/vcd_visualize.py    # This will output app_data.txt
+
+        # 得到波形的WaveJSON app_data.txt
+        python3 ./testcase/vcd_visualize.py

@@ -198,6 +198,7 @@ class JudgerTester:
         judge.download_file = mock_download_file
 
         # 1 stands for the submission result id, useless here
+        # 定义：def judge(submission_detail, judger_config)
         judge.judge(cfg_inst.config['submission_id'], cfg_inst.config['testcase_id'], 1)
 
 def run(args):
