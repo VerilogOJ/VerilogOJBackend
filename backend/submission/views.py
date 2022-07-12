@@ -35,7 +35,7 @@ class SubmissionViewSet(ReadOnlyModelViewSet):
     pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend,)
     permission_classes = (GetOnlyPermission,)
-    filter_fields = ('id','user', "problem", "submit_time")
+    filter_fields = ('id', 'user', "problem", "submit_time")
 
     def get_serializer_class(self):
         """

@@ -15,18 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from django.conf.urls import url,include
+from django.conf.urls import url, include
 from django.conf import settings
 from django.views.static import serve
 #from user.views import UserLoginView, UserLogoutView
 from rest_framework.documentation import include_docs_urls
 
-
 urlpatterns = [
     path(settings.WEBPATH_PREFIX, include(
         [
             path('admin-django/', admin.site.urls),
-            url('docs/', include_docs_urls(title="接口文档", authentication_classes=[], permission_classes=[])),
+            # https://django-rest-framework-old-docs.readthedocs.io/en/3.7.7/topics/documenting-your-api/
+            url('docs/', include_docs_urls(title="Verilog OJ 接口文档", authentication_classes=[], permission_classes=[])),
             url('api/', include('user.urls')),
             url('api/', include('file.urls')),
             url('api/', include('problem.urls')),
@@ -45,4 +45,3 @@ if settings.HOST_DJANGO_STATIC:
             'document_root': settings.STATIC_ROOT
         })
     ]
-

@@ -9,7 +9,6 @@ click==8.0.4
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.2.0
-coreapi==2.3.3
 coreschema==0.0.4
 Django==3.2.12
 django-cors-headers==3.7.0
@@ -34,3 +33,8 @@ uritemplate==3.0.1
 urllib3==1.26.6
 vine==5.0.0
 wcwidth==0.2.5
+
+# Built-in API documentation
+coreapi==2.3.3
+pygments
+markdown
