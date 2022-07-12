@@ -510,8 +510,9 @@ problems:
         # 得到波形的WaveJSON app_data.txt
         python3 ./testcase/vcd_visualize.py
 
-        
         # 得到Verilog文件生成的逻辑电路图
         echo read -sv ./submit/code.v\nhierarchy -auto-top\nproc; opt; techmap; opt\nwrite_json ./synth.json > yosys_script.ys # 先新建yosys脚本
         yosys ./yosys_script.ys
-        netlistsvg ./synth.json -o ./schematic.svg 
+        netlistsvg ./synth.json -o ./schematic.svg
+        
+        ls # DEBUG 查看当前文件夹下的所有文件（显示到log中）
