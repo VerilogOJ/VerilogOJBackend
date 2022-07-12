@@ -59,8 +59,7 @@ dump_graph 可用于生成 DOT 格式图片：
 ### 有关 .v 文件
 
 - OpenTimer reads *gate-level* (aka structural) verilog files (.v) to initialize circuit netlists. Logics are described by gates and modules only. There are no `always` blocks or `assign` statements.
-
-  - 需要先转为门级电路
+    - 需要先转为门级电路
 
 ## 项目集成
 
@@ -84,9 +83,7 @@ target_link_libraries(app OpenTimer Threads::Threads stdc++fs)
 ## 开源协议
 
 - Synopsys TAP-in 使用 Synopsys SDC License
-
 - NanGate 45nm Library 使用 Nangate Open Cell Library License
-
 - OpenTimer 核心代码及其它组件使用 MIT License
 
 可供实验使用

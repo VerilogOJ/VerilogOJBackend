@@ -36,7 +36,7 @@
 
 从 `docker container exec 77c sh -c "cat /etc/nginx/nginx.conf"` 容易得到，唯一的站点配置位于 `/etc/nginx/conf.d/default.conf`，则将自定义的站点文件放置于此即可。
 
+### Helpful Commands
 
-### Helpful commands
 - 手工构建：`cd frontend && docker build . -f Dockerfile.nginx --build-arg DELETE_NPM_LOCK=no --build-arg USE_NPM_MIRROR=yes -t front:v1`
 - 启动：`docker run --rm -it --network=host front:v1`

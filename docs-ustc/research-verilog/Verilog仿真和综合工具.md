@@ -6,7 +6,7 @@
 
 #### 安装
 
-```bash
+```sh
 sudo apt-get install yosys
 
 # 如果无法运行，可能需要安装的依赖如下
@@ -18,7 +18,7 @@ sudo apt-get install build-essential clang bison flex \
 
 #### 使用
 
-```bash
+```sh
 # 你需要如下指令来进行对Verilog代码的综合
 yosys
 
@@ -32,7 +32,7 @@ yosys> synth -top YOUR_TOP_MODULE
 
 #### 安装
 
-```bash
+```sh
 sudo apt-get install iverilog
 sudo apt-get install gtkwave
 ```
@@ -51,7 +51,7 @@ end
 
 随后可以使用如下命令进行仿真
 
-```bash
+```sh
 iverilog -o OUTPUT_FILE YOUR_tb.v YOUR_MODULE.v
 vvp OUTPUT_FILE -vcd
 gtkwave wave.vcd
@@ -60,9 +60,7 @@ gtkwave wave.vcd
 注：vvp命令有几种参数，其特定如下
 
 * -vcd  将wave dump format（波形镜像格式）设置成 vcd。默认参数。特点是生成文件大，但能最好的适应第三方工具
-
 * -lxt,-lxt-speed,-lxt-space 将波形镜像格式设置成 lxt。顾名思义 lxt-speed拥有较高的执行与读取速度，lxt-space 占用较小的空间
-
 * -lxt2 比lxt慢，但是比vcd快，比lxt节省空间。递增式写入，即可以一边仿真，一边读取波形数据，进行显示。
 * -none 禁止一切波形镜像的生成，可以加快仿真速度
 
@@ -72,7 +70,7 @@ gtkwave wave.vcd
 
 #### 安装
 
-```bash
+```sh
 # 需要先安装npm
 sudo apt-get install npm
 
@@ -82,7 +80,7 @@ npm install -g netlistsvg
 
 #### 使用
 
-```bash
+```sh
 # 在使用yosys仿真之后，需要先生成json文件
 yosys> write_json YOUR_JSON.json
 
