@@ -22,7 +22,7 @@ RUN (test ${USE_APT_MIRROR} = yes \
     && dpkg-reconfigure --frontend noninteractive tzdata \
     && apt-get install -y yosys python3 iverilog python3-pip \
     && apt-get install -y nodejs npm \
-    && npm install netlistsvg \
+    && npm install --global netlistsvg \
     && apt-get install -y git \
     && (test ${USE_PIP_MIRROR} = yes \
         && \
