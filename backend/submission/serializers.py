@@ -17,7 +17,7 @@ class SubmissionResultPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubmissionResult
         #fields = '__all__'
-        exclude = ['app_data', 'log'] # TODO 这里是否需要添加logic_circuit_data
+        exclude = ['app_data', 'log', 'logic_circuit_data'] # 需要用户验证才能看到的数据
 
 class SubmissionSerializer(serializers.ModelSerializer):
     problem_belong = ProblemSerializer(source='problem', read_only=True)
