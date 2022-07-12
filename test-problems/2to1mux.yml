@@ -1,5 +1,5 @@
 problems:
-- name: "MUX 2-to-1多路选择器"
+- name: "MUX 2-to-1选择器"
   description: "请写一个描述二路选择器的 Verilog module。\n二路选择器的逻辑特点是，当选择器sel为“0”选择a的值，当选择器sel为“1”时，输出为b的值。"
   description_input: "输入a,b,sel都为1bit"
   description_output: "输出为 out，位宽为 1。\n您应当通过sel来控制 x0 和 x1 的结果"
@@ -11,7 +11,7 @@ problems:
       {"name": "out", "wave": "0.1.0101"}
     ]}
   judge_files:
-  - name: mux_ref.v
+  - name: code_ref.v
     content: |-
       module top_module(
             input sel,
@@ -400,60 +400,62 @@ problems:
 
                     self.output['signal'].append(sig_json)
 
-            def addCompare(self,signal_name,prefix1,prefix2,width):
+            def addCompare(self,signal_names,prefix1,prefix2,width):
                 #have to be the same length and width
 
-                signal1 = prefix1 + signal_name
-                signal2 = prefix2 + signal_name
+                for signal_name in signal_names:
 
-                for j in range(width):
-                    name1 = signal1 +'['+str(j) +']' 
-                    get1 = ""
-                    wave1 = ""
-                    name2 = signal2 +'['+str(j) +']' 
-                    get2 = ""
-                    wave2 = ""
+                    signal1 = prefix1 + signal_name
+                    signal2 = prefix2 + signal_name
 
-                    for each in self.output['signal']:
-                        if each['name'] == name1:
-                            get1 = each['wave']
-                        if each['name'] == name2:
-                            get2 = each['wave']
+                    for j in range(width):
+                        name1 = signal1 +'['+str(j) +']' 
+                        get1 = ""
+                        wave1 = ""
+                        name2 = signal2 +'['+str(j) +']' 
+                        get2 = ""
+                        wave2 = ""
 
-                    temp1 = list(get1)
-                    temp2 = list(get2)
-                    for i in range(len(get1)):
-                        if temp1[i] == '.':
-                            wave1 += wave1[i-1]
-                        else:
-                            wave1 += temp1[i]
-                    
-                        if temp2[i] == '.':
-                            wave2 += wave2[i-1]
-                        else:
-                            wave2 += temp2[i]
+                        for each in self.output['signal']:
+                            if each['name'] == name1:
+                                get1 = each['wave']
+                            if each['name'] == name2:
+                                get2 = each['wave']
 
-                    sig_json = {}
-                    sig_json['name'] = "missmatch_" + signal_name + '[' + str(j) + ']'
-                    wave = ""
-                    get = ""
-                    for i in range(len(wave1)):
-                        if wave1[i]==wave2[i]:
-                            if get == "0":
-                                wave += "." 
-                                get = "0"
+                        temp1 = list(get1)
+                        temp2 = list(get2)
+                        for i in range(len(get1)):
+                            if temp1[i] == '.':
+                                wave1 += wave1[i-1]
                             else:
-                                wave += "0"
-                                get = "0"
-                        else:
-                            if get == "1":
-                                wave+= "."
-                                get = "1"
+                                wave1 += temp1[i]
+                        
+                            if temp2[i] == '.':
+                                wave2 += wave2[i-1]
                             else:
-                                wave+= "."
-                                get = "1"
-                    sig_json['wave'] = wave
-                    self.output['signal'].append(sig_json)
+                                wave2 += temp2[i]
+
+                        sig_json = {}
+                        sig_json['name'] = "missmatch_" + signal_name + '[' + str(j) + ']'
+                        wave = ""
+                        get = ""
+                        for i in range(len(wave1)):
+                            if wave1[i]==wave2[i]:
+                                if get == "0":
+                                    wave += "." 
+                                    get = "0"
+                                else:
+                                    wave += "0"
+                                    get = "0"
+                            else:
+                                if get == "1":
+                                    wave+= "."
+                                    get = "1"
+                                else:
+                                    wave+= "."
+                                    get = "1"
+                        sig_json['wave'] = wave
+                        self.output['signal'].append(sig_json)
 
 
 
@@ -478,7 +480,33 @@ problems:
         def main():
 
             from wavedump import VcdComparator
-            cmpr = VcdComparator("./out_ref.vcd", "./out_mux.vcd", ['root/testbench/sel', 'root/testbench/a' ,'root/testbench/b', 'root/testbench/out'])
+            from pyverilog.dataflow.dataflow_analyzer import VerilogDataflowAnalyzer
+
+            filelist = ['./problem/code_ref.v']
+
+            topmodule = 'top_module'
+            noreorder = False
+            nobind = False
+            include = None
+            define = None
+
+            analyzer = VerilogDataflowAnalyzer(filelist, topmodule,
+                                              noreorder=noreorder,
+                                              nobind=nobind,
+                                              preprocess_include=include,
+                                              preprocess_define=define)
+
+            analyzer.generate()
+            terms = analyzer.getTerms()
+
+            compare_list = []
+            for tk, tv in sorted(terms.items(), key=lambda x:str(x[0])):
+              if 'Input' in tv.termtype or 'Output' in tv.termtype: 
+                compare_list.append('root/testbench/'+str(tk.scopechain[1]))
+
+            print('compare list')
+            print(compare_list)
+            cmpr = VcdComparator("./out_ref.vcd", "./out_code.vcd", compare_list)
             ret, msg = cmpr.compare()
             return (ret, msg)
 
@@ -531,26 +559,56 @@ problems:
         def main():
             from pyDigitalWaveTools.vcd.parser import VcdParser
             from wavedump import VcdConverter
+            from pyverilog.dataflow.dataflow_analyzer import VerilogDataflowAnalyzer
+
+            filelist = ['./problem/code_ref.v']
+
+            topmodule = 'top_module'
+            noreorder = False
+            nobind = False
+            include = None
+            define = None
+
+            analyzer = VerilogDataflowAnalyzer(filelist, topmodule,
+                                              noreorder=noreorder,
+                                              nobind=nobind,
+                                              preprocess_include=include,
+                                              preprocess_define=define)
+
+            analyzer.generate()
+            terms = analyzer.getTerms()
+
+            input_list = []
+            output_list = []
+            compare_list = []
+
+            for tk, tv in sorted(terms.items(), key=lambda x:str(x[0])):
+              if 'Input' in tv.termtype:
+                input_list.append('root/testbench/'+str(tk.scopechain[1]))
+
+              if 'Output' in tv.termtype:
+                output_list.append('root/testbench/'+str(tk.scopechain[1]))
+                compare_list.append(str(tk.scopechain[1]))
 
             with open("./out_ref.vcd") as vcd_ref_file:
                 vcd = VcdParser()
                 vcd.parse(vcd_ref_file)
                 data_ref = vcd.scope.toJson()
 
-            with open("./out_mux.vcd") as vcd_dut_file:
+            with open("./out_code.vcd") as vcd_dut_file:
                 vcd = VcdParser()
                 vcd.parse(vcd_dut_file)
                 data_dut = vcd.scope.toJson()
 
             vc_ref = VcdConverter(data_ref)
-            time = vc_ref.addToWaveJsonSeparate(signal_names=['root/testbench/sel', 'root/testbench/a', 'root/testbench/b','root/testbench/out'], prefix = "reference_")
+            time = vc_ref.addToWaveJsonSeparate(signal_names=input_list+output_list, prefix = "reference_")
 
             vc_dut = VcdConverter(data_dut)
-            vc_dut.addToWaveJsonSeparate_modify(signal_names=['root/testbench/out'], time_max=time,prefix= "your_")
+            vc_dut.addToWaveJsonSeparate_modify(signal_names=output_list, time_max=time,prefix= "your_")
 
             vc_ref.mergeWaveDict(vc_dut.emitWaveDict())
 
-            vc_ref.addCompare("out","your_","reference_",1)
+            vc_ref.addCompare(compare_list,"your_","reference_",1)
 
             out = vc_ref.emitWaveJson()
 
@@ -561,34 +619,40 @@ problems:
     - name: main.sh
       content: |-
         #!/bin/bash
-        iverilog ./testcase/testbench.v ./problem/mux_ref.v -o ref_run
+        # 跑一遍正确答案得到参考
+        iverilog ./testcase/testbench.v ./problem/code_ref.v -o ref_run
         vvp ref_run
         mv out.vcd out_ref.vcd
 
-        iverilog ./testcase/testbench.v ./submit/code.v -o mux_run
-
-        if [ $? -ne 0 ]; then
+        # 跑用户代码
+        iverilog ./testcase/testbench.v ./submit/code.v -o code_run
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "CE" > possible_error.txt
           exit 1
         fi
-
-        vvp mux_run
-
-        if [ $? -ne 0 ]; then
+        vvp code_run
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "CE" > possible_error.txt
           exit 1
         fi
+        mv out.vcd out_code.vcd
 
-        mv out.vcd out_mux.vcd
-
-        python3 ./testcase/vcd_main.py         # This will compare out_ref.vcd and out_mux.vcd
-
-        if [ $? -ne 0 ]; then
+        # 比较参考波形和用户波形
+        python3 ./testcase/vcd_main.py
+        if [ $? -ne 0 ]; then # 程序执行出错
           echo "0" > score.txt
           echo "WA" > possible_error.txt
-        else
+        else # 程序正常结束
           echo "10" > score.txt
           echo "NONE" > possible_error.txt
         fi
 
-        python3 ./testcase/vcd_visualize.py    # This will output app_data.txt
+        # 得到波形的WaveJSON app_data.txt
+        python3 ./testcase/vcd_visualize.py
+
+        # 得到Verilog文件生成的逻辑电路图
+        echo -e "read -sv ./submit/code.v\nhierarchy -auto-top\nproc; opt; techmap; opt\nwrite_json ./synth.json" > yosys_script.ys # 先新建yosys脚本
+        yosys ./yosys_script.ys
+        netlistsvg ./synth.json -o ./schematic.svg
+        
+        ls # DEBUG 查看当前文件夹下的所有文件（显示到log中）

@@ -26,3 +26,7 @@ maintenance/backup-files-volume-*.tar
 maintenance/backup-db-volume-*.tar
 maintenance/backup-db-*.sql
 backend/verilogoj.code-workspace
+
+# playgrounds
+temp/
+playgrounds/
