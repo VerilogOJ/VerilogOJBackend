@@ -1,1 +1,0 @@
-../backend/judge/judge.py
