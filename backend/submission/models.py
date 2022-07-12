@@ -100,7 +100,7 @@ class SubmissionResult(models.Model):
     log = models.TextField(help_text='判题过程中输出的log', blank=True)
     # 如果文件系统中存了一份那其实就没必要再在数据库中存了
     app_data = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
-    logic_circuit_data = models.BinaryField(help_text='逻辑级电路图（由用户上传的verilog代码生成）')
+    logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
     
     class Meta:
         unique_together = (('submission', 'testcase'),)

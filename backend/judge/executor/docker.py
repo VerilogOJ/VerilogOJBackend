@@ -153,7 +153,7 @@ class DockerExecutor(BaseExecutor):
                 appdata = "Error reading appdata ({}), traceback below\n{}".format(
                     appdata_file_path, traceback.format_exc())
 
-            logic_circuit_data = "" # TODO 二进制文件 而不是字符串 可能用Data什么的吧
+            logic_circuit_data = ""
             logic_circuit_data_path = os.path.join(base_dir, self.judger_config['logic_circuit_data_path'])
             try:
                 with open(logic_circuit_data_path, "r") as f:
@@ -174,7 +174,7 @@ class DockerExecutor(BaseExecutor):
                 'log': log if log is not None else "Suppressed due to judger configuration",
                 'status': 'DONE',
                 'app_data': appdata if self.judger_config['submit_appdata'] else 'N/A',
-                'logic_circuit_data': appdata if self.judger_config['submit_appdata'] else 'N/A',
+                'logic_circuit_data': logic_circuit_data if self.judger_config['submit_logic_circuit_data'] else 'N/A',
                 'possible_failure': possible_errors[0] if len(possible_errors) > 0 else "NONE"
             })
 
