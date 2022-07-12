@@ -100,6 +100,7 @@ class SubmissionResult(models.Model):
     log = models.TextField(help_text='The log generated along the process', blank=True)
     app_data = models.TextField(help_text='Data associated with this result (waveform, etc)', blank=True)
     
+    
     class Meta:
         unique_together = (('submission', 'testcase'),)
     

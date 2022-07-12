@@ -6,8 +6,7 @@ from .serializers import NewsSerializer
 
 class NewsViewSet(GenericViewSet, RetrieveModelMixin, ListModelMixin):
     """
-    News view
+    公告
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-    
