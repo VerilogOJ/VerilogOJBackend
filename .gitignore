@@ -1,5 +1,12 @@
 **/__pycache__
+
+# Python虚拟环境
 venv/
+
+# Django Migrations
+# 这样做是很奇怪的 但是现在在测试阶段 希望每次docker重新部署都是用makemigrations从零开始建表而不是迁移
+# 但也还好 本地也能调试
+migrations/
 
 # Editor directories and files
 .idea
