@@ -84,12 +84,12 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
         - `python manage.py createsuperuser`
 - 非第一次部署（更新）
     - 如果修改了数据库的结构
-        - 注意用`python manage.py makemigrations`更新实际数据库的表格
-        - 进入backend容器执行
-        - `python manage.py migrate`
+        - 注意用`python manage.py makemigrations`产生一次提交 然后`git commit`
     - `git pull && sudo docker-compose up --detach --build`
         - `--build` Build images before starting containers. 重新构建依赖的images
         - `--detach` Detached mode: Run containers in the background, print new container names.
+    - 如果修改了数据库的结构
+        - 进入backend容器执行`python manage.py migrate`应用数据库的修改
 
 ### 成功部署
 
