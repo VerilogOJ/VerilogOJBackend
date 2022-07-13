@@ -4,13 +4,6 @@
 
 ## 开发
 
-### 下载源代码
-
-```sh
-git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git # once
-cd verilogojbackend
-```
-
 ### 安装全局依赖
 
 ```sh
@@ -19,11 +12,17 @@ sudo apt install build-essential python3-virtualenv yosys iverilog rabbitmq-serv
 # 其中yosys和iverilog为Verilog综合仿真软件 rabbitmq负责在后端和判题模块中传递消息
 ```
 
+### 下载源代码
+
+```sh
+git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git # once
+cd verilogojbackend
+cd backend
+```
+
 ### 创建Python虚拟环境
 
 ```sh
-cd backend
-
 # 激活创建并Python虚拟环境
 virtualenv venv
 . venv/bin/activate
@@ -99,7 +98,7 @@ VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
 - API <http://166.111.223.67:40000/oj/api/>
 - 查看接口文档 <http://166.111.223.67:40000/oj/api/docs/>
 - Django管理 <http://166.111.223.67:40000/oj/admin-django/>
-    - 在<http://166.111.223.67/oj/admin-django/problem/problem/import_yaml>中逐个复制粘贴仓库目录下`test-problems`内的资源文件内容，提交，即可在前端看到题目
+    - 在<http://166.111.223.67:40000/oj/admin-django/problem/problem/import_yaml>中逐个复制粘贴仓库目录下`test-problems`内的资源文件内容，提交，即可在前端看到题目
 
 ## Open Source Projects
 

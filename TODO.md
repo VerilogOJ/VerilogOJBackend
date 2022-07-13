@@ -1,8 +1,7 @@
 # TODO
 
-- 添加逻辑仿真图生成
-    - 修改题目的main.sh生成
 - 添加电路元件库映射图
+    - 修改题目的main.sh生成
 - 把仓库中用不到的文件删一删 比如judger里面的东西都不需要 还有backend/judge/executor里面的一些文件
 
 ---
