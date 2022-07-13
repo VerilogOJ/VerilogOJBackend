@@ -160,7 +160,16 @@ class DockerExecutor(BaseExecutor):
                     logic_circuit_data = f.read()
             except:
                 logic_circuit_data = "Error reading logic_circuit_data ({}), traceback below\n{}".format(
-                    logic_circuit_data, traceback.format_exc())
+                    logic_circuit_data_path, traceback.format_exc())
+
+            circuit_diagram_data = ""
+            circuit_diagram_data_path = os.path.join(base_dir, self.judger_config['circuit_diagram_data_path'])
+            try:
+                with open(circuit_diagram_data_path, "r") as f:
+                    circuit_diagram_data = f.read()
+            except:
+                circuit_diagram_data = "Error reading circuit_diagram_data ({}), traceback below\n{}".format(
+                    circuit_diagram_data_path, traceback.format_exc())
             
             possible_error_file_path = os.path.join(base_dir, self.judger_config['possible_error_path'])
             try:
@@ -175,6 +184,7 @@ class DockerExecutor(BaseExecutor):
                 'status': 'DONE',
                 'app_data': appdata if self.judger_config['submit_appdata'] else 'N/A',
                 'logic_circuit_data': logic_circuit_data if self.judger_config['submit_logic_circuit_data'] else 'N/A',
+                'circuit_diagram_data': circuit_diagram_data if self.judger_config['submit_circuit_diagram_data'] else 'N/A',
                 'possible_failure': possible_errors[0] if len(possible_errors) > 0 else "NONE"
             })
 
