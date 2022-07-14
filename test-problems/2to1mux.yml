@@ -658,6 +658,6 @@ problems:
         # 得到Verilog文件生成的电路元件图
         echo -e "read_verilog ./submit/code.v\nsynth_xilinx -top top_module\nshow -notitle -stretch -format svg -prefix ./diagram" > yosys_script_1.ys
         yosys ./yosys_script_1.ys
-        
 
-        ls # DEBUG 查看当前文件夹下的所有文件（显示到log中）
+        # DEBUG 查看当前文件夹下的所有文件（显示到log中）
+        ls 
