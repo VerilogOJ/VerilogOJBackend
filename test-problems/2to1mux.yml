@@ -656,7 +656,7 @@ problems:
         netlistsvg ./synth.json -o ./schematic.svg
 
         # 得到Verilog文件生成的电路元件图
-        echo -e "read_verilog ./submit/code.v\nsynth_xilinx -top code\nshow -notitle -stretch -format svg -prefix ./diagram" > yosys_script_1.ys
+        echo -e "read_verilog ./submit/code.v\nsynth_xilinx -top top_module\nshow -notitle -stretch -format svg -prefix ./diagram" > yosys_script_1.ys
         yosys ./yosys_script_1.ys
         
 
