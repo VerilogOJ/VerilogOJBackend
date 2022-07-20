@@ -68,43 +68,6 @@ services:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: ${rabbitmq_password}
 
-  judgeworker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.judger
-      args:
-        USE_PIP_MIRROR: "yes"
-        USE_APT_MIRROR: "yes"
-        USE_MYSQL: "yes"
-    environment:
-      VERILOG_OJ_JUDGER_SECRET: ${judger_secret}
-      VERILOG_OJ_SECRET_KEY: ${secret_key}
-      VERILOG_OJ_USE_MYSQL: "yes"
-      VERILOG_OJ_MYSQL_DATABASE: django_db
-      VERILOG_OJ_MYSQL_HOST: db
-      VERILOG_OJ_MYSQL_PORT: 3306
-      VERILOG_OJ_MYSQL_USER: django
-      VERILOG_OJ_MYSQL_PASSWORD: ${mysql_password}
-      VERILOG_OJ_PUBLIC_HOST: ${public_host}
-      VERILOG_OJ_RABBITMQ_PASSWORD: ${rabbitmq_password}
-      DOCKER_JUDGER_HOST_PATH: ${docker_judger_host_path}
-      DOCKER_HOST_DIR: ${docker_host_dir}
-    depends_on:
-      - "mqserver"
-    # Bind mount to control host docker & map a dir so host can fetch easily
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${docker_judger_host_path}:${docker_host_dir}
-
-  judger-env:
-    image: judger-env:v1
-    build:
-      context: ./deploy
-      dockerfile: Dockerfile.judge-env
-      args:
-        USE_PIP_MIRROR: "yes"
-        USE_APT_MIRROR: "yes"
-
 volumes:
   db-volume:
     driver: local

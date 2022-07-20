@@ -95,21 +95,6 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
 - 打开<http://127.0.0.1:8000/oj/docs>可以查看后端所有接口
 - 打开<http://127.0.0.1:8000/oj/admin-django/>可以进行admin管理
 
-### 运行判题服务
-
-```sh
-# 激活Python虚拟环境
-virtualenv venv
-. venv/bin/activate
-```
-
-```sh
-# 启动rabbitmq
-sudo systemctl start rabbitmq-server
-
-VERILOG_OJ_DEV=TRUE celery -A judge worker -l INFO
-```
-
 ### 题目导入
 
 以上步骤进行完毕后 可以导入题目 进行开发环境的部署测试。打开Django管理页面<http://127.0.0.1:8000/oj/admin-django/problem/problem/import_yaml> 逐个复制粘贴仓库目录下`test-problems`内的资源文件内容提交 即可在前端看到题目
