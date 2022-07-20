@@ -1,6 +1,6 @@
 import yaml
 
-with open("./problems/2to1mux.yaml", "r") as f:
+with open("./problems/100-2to1mux.yaml", "r") as f:
     yaml_content = yaml.safe_load(f)
 
 print(yaml_content)

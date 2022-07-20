@@ -1,4 +1,5 @@
-- name: "2选1MUX"
+- id: 100
+  name: "2选1MUX"
   description: |-
     二路选择器的逻辑特点是：
 
@@ -47,7 +48,6 @@
               $dumpfile(`DUMP_FILE_NAME);
               $dumpvars;
           end
-          integer i;
           initial begin
               #1 sel = 0; a = 0; b = 0;
               #1 a = 1; b = 0;
