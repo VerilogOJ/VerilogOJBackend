@@ -6,9 +6,12 @@ https://yaml-multiline.info/
 
 在`problem-bank/problems/`中新建一个yaml文件并编辑内容，即可创建一个题目。
 
+
 - 题目信息
     - `id` 题目id（正整数）
         - 请确保每道题目的id唯一
+        - 试手题目 0-99
+        - 每个专题 100-199 200-299 ...
     - `name` 题目名称（字符串）
     - `description` 题目描述（多行字符串）
         - 支持Markdown
