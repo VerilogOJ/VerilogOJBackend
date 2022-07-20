@@ -1,9 +1,8 @@
+# https://stackoverflow.com/questions/3964681/find-all-files-in-a-directory-with-extension-txt-in-python
 import glob
 
-# https://stackoverflow.com/questions/3964681/find-all-files-in-a-directory-with-extension-txt-in-python
-
-yaml_files = glob.glob("./*.yml")
-yaml_files += glob.glob("./*.yaml")
+yaml_files = glob.glob("./problems/*.yml")
+yaml_files += glob.glob("./problems/*.yaml")
 
 all_problems = ""
 
