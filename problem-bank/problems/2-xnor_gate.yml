@@ -1,0 +1,55 @@
+- id: 2
+  name: XNOR 门
+  description: |-
+    请写一个描述同或 (XNOR) 门的 Verilog module。
+    同或门的逻辑特点是，当两个输入端一个为“0”，另一个为“1”时，输出为“0”; 当两个输入端均为“1”或均为“0”时，输出为“1”。
+  description_input: |-
+    输入为 a 和 b，均为 1-bit wire。
+  description_output: |-
+    输出为 out，位宽为 1。
+    您应当输出 a 和 b 进行同或运算的结果。
+
+  code_template: |-
+    module top_module( 
+        input a, 
+        input b, 
+        output out);
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference.v: |-
+    module top_module( 
+        input a, 
+        input b, 
+        output out);
+        assign out = ~(a ^ b);
+    endmodule
+
+  testbenches:
+    - |-
+      module testbench();
+          reg a;
+          reg b;
+          wire out;
+          top_module DUT(a, b, out);
+
+          // http://www.referencedesigner.com/tutorials/verilog/verilog_62.php
+          initial begin
+              $dumpfile("out.vcd");
+              // This will dump all signal, which may not be useful
+              //$dumpvars;
+
+              // dumping only this module
+              //$dumpvars(1, testbench);
+
+              // dumping only these variable
+              // the first number (level) is actually useless
+              $dumpvars(0, a, b, out);
+          end
+
+          initial begin
+              #1 a = 0; b = 0;
+              #1 a = 1; b = 0;
+              #1 a = 0; b = 1;
+              #1 a = 1; b = 1;
+          end
+      endmodule
