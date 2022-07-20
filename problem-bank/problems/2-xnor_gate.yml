@@ -9,18 +9,23 @@
     输出为 out，位宽为 1。
     您应当输出 a 和 b 进行同或运算的结果。
 
+  top_module: "Mux"
+  signals: ["a", "b", "out"]
+
   code_template: |-
-    module top_module( 
+    module Xnor( 
         input a, 
         input b, 
-        output out);
+        output out
+    );
         // 在这里输入你的代码 请不要修改模块和信号名称
     endmodule
   code_reference.v: |-
-    module top_module( 
+    module Xnor( 
         input a, 
         input b, 
-        output out);
+        output out
+    );
         assign out = ~(a ^ b);
     endmodule
 
@@ -30,20 +35,11 @@
           reg a;
           reg b;
           wire out;
-          top_module DUT(a, b, out);
+          Xnor myXnor(a, b, out);
 
-          // http://www.referencedesigner.com/tutorials/verilog/verilog_62.php
           initial begin
-              $dumpfile("out.vcd");
-              // This will dump all signal, which may not be useful
-              //$dumpvars;
-
-              // dumping only this module
-              //$dumpvars(1, testbench);
-
-              // dumping only these variable
-              // the first number (level) is actually useless
-              $dumpvars(0, a, b, out);
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
           end
 
           initial begin

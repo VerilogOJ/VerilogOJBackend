@@ -12,7 +12,7 @@
     你需要通过`sel`来控制`out`的结果
 
   top_module: "Mux"
-  signals: ['sel', 'a', 'b', 'out']
+  signals: ["sel", "a", "b", "out"]
 
   code_template: |-
     module Mux(
@@ -44,10 +44,12 @@
           reg b;
           wire out;
           Mux myMux(sel, a, b, out);
+
           initial begin
               $dumpfile(`DUMP_FILE_NAME);
               $dumpvars;
           end
+          
           initial begin
               #1 sel = 0; a = 0; b = 0;
               #1 a = 1; b = 0;

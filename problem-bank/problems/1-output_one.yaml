@@ -5,38 +5,34 @@
   description_input: |-
     无
   description_output: |-
-    输出为 one，位宽为 1
+    输出为`out` 位宽为`1`
 
+  top_module: "One"
+  signals: ["out"]
 
   code_reference: |-
-    module top_module(
-        output one
-      );
-        assign one = 1;
+    module One(
+        output out
+    );
+        assign out = 1;
     endmodule
   code_template: |-
-    module top_module(
-          output one
-      );
-      // Write your code here
+    module One(
+        output out
+    );
+        // 在这里输入你的代码 请不要修改模块和信号名称
     endmodule
   code_testbenches:
     - |-
       module testbench();
-          wire one;
-          top_module DUT(one);
-          // http://www.referencedesigner.com/tutorials/verilog/verilog_62.php
+          wire out;
+          One myOne(out);
+
           initial begin
-              $dumpfile("out.vcd");
-              // This will dump all signal, which may not be useful
-              //$dumpvars;
-              // dumping only this module
-              //$dumpvars(1, testbench);
-              // dumping only these variable
-              // the first number (level) is actually useless
-              $dumpvars(0, one);
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
           end
-          integer i;
+
           initial begin
               #1;
           end
