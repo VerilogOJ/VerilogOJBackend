@@ -30,7 +30,7 @@ submit 中保存着用户提交的文件，对于现在的版本而言，用户�
 
 #### testbench.v 编写
 
-**当前testbench.v 中端口需要和template_code.v中端口保持一致。**  `$dumpfile("out.vcd");`生成测试文件对应的vcd内容。**目前这一项内容是必须的。** `$dumpvars(0,...)`表示需要输出到vcd文件的参数，应该和端口对应，第一个参数0表示输出内容来自顶层模块。对于仿真文件编写和用法可以查看[链接](https://www.xilinx.com/Attachment/Xilinx_Answer_53776_verilog_simulation_testbench_ver17.pdf)。
+**当前testbench.v 中端口需要和template_code.v中端口保持一致。**  `$dumpfile("out.vcd");`生成测试文件对应的vcd内容。**目前这一项内容是必须的。** `$dumpvars(0,...)`表示需要输出到vcd文件的参数，应该和端口对应，第一个参数0表示输出内容来自顶层模块。对于仿真文件编写和用法可以查看[链接](https://www.xilinx.com/Attachment/Xilinx_Answer_53776_verilog_simulation_testbench_ver17.pdf)。 # 404
 
 #### 多判题脚本判题（需熟悉判题脚本）
 
