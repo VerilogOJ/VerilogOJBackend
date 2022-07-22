@@ -69,4 +69,4 @@ class TestCaseViewSet(ModelViewSet):
     serializer_class = TestCaseSerializer
     permission_classes = (permissions.GetOnlyPermission,)
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('id','problem','type')
+    filter_fields = ('id', 'problem')

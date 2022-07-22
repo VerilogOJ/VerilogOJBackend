@@ -156,6 +156,7 @@ class SubmitView(APIView):
     )
 
     def post(self, request, *args):
+        print("[submission.SubmitView.post] 开始处理")
         # Fix bug: must check permission first
         self.check_permissions(request)
 
@@ -186,8 +187,8 @@ class SubmitView(APIView):
             # Get all test cases related to this problem
             prob_id = serializer.data["problem"]
             subm_id = subm.id
-            # print("{} {}".format(prob_id, subm_id))
-            prob = Problem.objects.filter(id=prob_id).first()
+            print("prob_id {} subm_id {}".format(prob_id, subm_id))
+            prob: Problem = Problem.objects.filter(id=prob_id).first()
             if prob == None:
                 return Response("No such problem", status.HTTP_404_NOT_FOUND)
             # 对于每一个测试点
@@ -217,7 +218,7 @@ class SubmitView(APIView):
                 # - 顶层模块名称
                 # - 信号名称
                 top_module: str = prob.top_module
-                signal_names: List(str) = prob.signal_name # TODO 验证这里传入的是一个List或者Set
+                signal_names: List(str) = [signal.name for signal in prob.signal_names] # TODO 验证这里传入的是一个List或者Set
 
                 # [生成判题服务的请求]
 
@@ -281,11 +282,11 @@ class SubmitView(APIView):
                         possible_failure="CE",
                     ).save()
                 elif response_origin.status_code == 422:
-                    Response(
+                    return Response(
                         "Validation Error" + response_origin.content,
-                        status.HTTP_500_INTERNAL_SERVER_ERROR,
+                        status.HTTP_422_UNPROCESSABLE_ENTITY,
                     )
                 else:
-                    Response("判题服务出错", status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    return Response("判题服务出错", status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             return Response(str(e), status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -9,7 +9,7 @@ REST_FRAMEWORK = {
     ],
 }
 
- #SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret!
 if 'VERILOG_OJ_SECRET_KEY' not in os.environ:
     raise Exception("Verilog OJ should have VERILOG_OJ_SECRET_KEY passed by envvars")
 
