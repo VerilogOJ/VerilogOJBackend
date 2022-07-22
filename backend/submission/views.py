@@ -215,8 +215,8 @@ class SubmitView(APIView):
                 # 需要的信息
                 # - 顶层模块名称
                 # - 信号名称
-                top_module: str = "TODO"
-                signal_names: List(str) = ["TODO"]
+                top_module: str = prob.top_module
+                signal_names: List(str) = prob.signal_name # TODO 验证这里传入的是一个List或者Set
 
                 # [生成判题服务的请求]
 
