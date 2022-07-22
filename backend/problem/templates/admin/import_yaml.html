@@ -12,66 +12,47 @@
 <form action="." method="post">
     {% csrf_token %}
     <textarea name="yaml_context" cols="80" rows="15" class="vLargeTextField" required="">
-# A example Yaml file is here
-problems:
-  - name: The first problem
-    description: The first description
-    description_input: description_input
-    description_output: description output
-    template_code_file: 
-      name: template.v
-      content: |-
-        module top_module();
-          // write your code here
-        endmodule
-    description_files:
-      - name: DescFileA.txt
-        content: |-
-          some content
-      - name: DescFileB.txt
-        content: |-
-          another content
-    judge_files:
-      - name: FileA.txt
-        content: |-
-          some content
-      - name: FileB.txt
-        content: |-
-          some content
-    app_data: |-
-      { "signal" : [
-        { "name": "clk",  "wave": "p......" },
-        { "name": "bus",  "wave": "x.34.5x", "data": "head body tail" },
-        { "name": "wire", "wave": "0.1..0." }
-      ]}
-    testcases:
-      - type: SIM
-        grade: 10
-        testcase_files:
-          - name: TestFileA.txt
-            content: |-
-              some content
-          - name: TestFileB.txt
-            content: |-
-              some another content
-      - type: SIM
-        grade: 10
-        testcase_files:
-          - name: TestFileC.txt
-            content: |-
-              test file c
-    
-  - name: The second problem
-    description: The second description
-    description_input: (Optional) description_input
-    description_output: (Optional) description_output
-    template_code_file:
-      name: template.v
-      content: |-
-        module top_module();
-          // write your code here
-        endmodule
-    
+# 这是一道题目的示例文件 注意请不要重复导入同id题目
+- id: 0
+  name: "Output Zero"
+  description: |-
+    欢迎您，Verilog OJ 的用户！~
+    这次的题目旨在帮助您上手 Verilog OJ。请您构造一个没有输入且只有一个输出常值 0 的电路。
+  description_input: |-
+    这个题目没有输入信号。
+  description_output: |-
+    这个题目中，您应该输出常值信号 0。
+
+  top_module: "Zero"
+  signals: ["out"]
+
+  code_template: |-
+    module Zero(
+        output out
+    );
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference: |-
+    module Zero(
+        output out
+    );
+        assign out = 0;
+    endmodule
+  code_testbenches:
+    - |-
+      module testbench();
+          wire out;
+          Zero myZero(y);
+
+          initial begin
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
+          end
+
+          initial begin
+              #1;
+          end
+      endmodule
     </textarea>
     <div class="submit-row">
         <input type="submit" value="导入" class="default" style="float: left;">
