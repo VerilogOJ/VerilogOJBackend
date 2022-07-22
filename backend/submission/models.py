@@ -77,11 +77,12 @@ class SubmissionResult(models.Model):
         ('WA', 'Wrong Answer'),
         ('NONE', 'No Error'),
         # When it's in PENDING or JUDGING we use this
-        ('NA', 'Not available')
+        ('NA', 'Not available'),
+        ('SERVER_ERROR', 'Error occurred in server')
     ]
 
     possible_failure = models.CharField(
-        max_length=20, choices=POSSIBLE_FAILURE_CHOICES,
+        max_length=64, choices=POSSIBLE_FAILURE_CHOICES,
         help_text='Possible failure of this submission result'
     )
 

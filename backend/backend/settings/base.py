@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR: 项目根目录
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+# MEDIA_ROOT: 文件目录 所有文件存储在这里
 MEDIA_ROOT = os.path.join(BASE_DIR, "storage")
 
 # Quick-start development settings - unsuitable for production
