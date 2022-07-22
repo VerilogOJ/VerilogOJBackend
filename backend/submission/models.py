@@ -19,7 +19,7 @@ class Submission(models.Model):
     submit_time = models.DateTimeField(auto_now_add=True, help_text='提交时间')
     submit_file = models.ForeignKey(
         File, on_delete=models.SET_NULL, null=True, blank=True,
-        help_text='学生提交的代码', related_name="reference_code"
+        help_text='学生提交的代码', related_name="code_student"
     )
     
     def get_results(self):
