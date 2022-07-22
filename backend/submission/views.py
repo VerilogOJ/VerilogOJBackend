@@ -164,12 +164,13 @@ class SubmitView(APIView):
         # Fix bug: AttributeError: This QueryDict instance is immutable
         # ref: https://stackoverflow.com/questions/44717442/this-querydict-instance-is-immutable
         data = request.data.copy()
-        data["user"] = request.user.id
+        data["user"] = request.user.id # 这里增加了一个user域
         serializer = SubmissionSerializer(data=data)
 
         # print(request.data)
         # print(serializer.initial_data)
         try:
+            print("[DEBUG] 进入try块")
             serializer.is_valid(True)
 
             # (Optional) Checking for deadline time
@@ -181,7 +182,7 @@ class SubmitView(APIView):
                     status.HTTP_400_BAD_REQUEST,
                 )
 
-            subm = serializer.save()
+            subm = serializer.save() # 存入数据库 这时`subm`为已经在数据库中的对象
 
             # Instantiate judge task for all testcases
             # Get all test cases related to this problem
@@ -193,32 +194,25 @@ class SubmitView(APIView):
                 return Response("No such problem", status.HTTP_404_NOT_FOUND)
             # 对于每一个测试点
             for case in prob.get_testcases():
+                print("[DEBUG] 进入一个测试点")
                 # [取出要判的题目相关的文件转为字符串]
-
                 # 需要的文件
                 # - 标准答案
                 # - 学生的代码
                 # - testbench
-                file_code_reference = prob.judge_files.filter(name="code_ref.v").first() # TODO 这么写没问题吗？
-                file_code_ref_reletive_path = os.path.join(settings.MEDIA_ROOT, file_code_reference.file)
-                with open(file_code_ref_reletive_path, "r") as f:
-                    code_reference: str = f.read()
-
-                file_code_student = prob.judge_files.get(name="code.v").first() # TODO 这么写没问题吗？
-                file_code_student_reletive_path = os.path.join(settings.MEDIA_ROOT, file_code_student.file)
-                with open(file_code_student_reletive_path, "r") as f:
+                with open(subm.submit_file.path, "r") as f:
                     code_student: str = f.read()
-                
-                file_testbench = prob.judge_files.get(name="testbench.v").first() # TODO 这么写没问题吗？
-                file_testbench_path = os.path.join(settings.MEDIA_ROOT, file_testbench.file)
-                with open(file_testbench_path, "r") as f:
-                    testbench: str = f.read() # FIXME 目前指定只能有一个testbench
+                with open(prob.code_reference_file.path, "r") as f:
+                    code_reference: str = f.read()
+                with open(case.testbench_file.path, "r") as f:
+                    testbench: str = f.read()
 
                 # 需要的信息
                 # - 顶层模块名称
                 # - 信号名称
                 top_module: str = prob.top_module
                 signal_names: List(str) = [signal.name for signal in prob.signal_names] # TODO 验证这里传入的是一个List或者Set
+                print(f"[DEBUG] top_module {top_module} signal_names {signal_names}")
 
                 # [生成判题服务的请求]
 

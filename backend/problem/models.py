@@ -48,7 +48,7 @@ class Problem(models.Model):
         File, on_delete=models.SET_NULL, null=True, blank=True,
         help_text='模板代码文件', related_name="reference_code"
     )
-    
+
 
     def get_testcases(self):
         "获得该题目所有测试点"
@@ -80,6 +80,7 @@ class Problem(models.Model):
     
     def __str__(self):
         return self.name
+
 
 class TestCase(models.Model):
     id = models.AutoField(primary_key=True, help_text='TestCase ID')

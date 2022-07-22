@@ -17,7 +17,10 @@ class Submission(models.Model):
         help_text='提交的用户'
     )
     submit_time = models.DateTimeField(auto_now_add=True, help_text='提交时间')
-    submit_files = models.ManyToManyField(File, help_text='提交的文件（代码等）')
+    submit_file = models.ForeignKey(
+        File, on_delete=models.SET_NULL, null=True, blank=True,
+        help_text='学生提交的代码', related_name="reference_code"
+    )
     
     def get_results(self):
         "获得该次提交对应的所有测试点结果"
