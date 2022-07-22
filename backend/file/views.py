@@ -2,7 +2,7 @@ from django.http import FileResponse
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 from user.permissions import IsAdminUser
-from judge.judger_auth import IsJudger
+
 
 from .models import File
 from .serializers import FileSerializer
@@ -15,14 +15,10 @@ class FileViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
     """
     queryset = File.objects.all()
     serializer_class = FileSerializer
-    # permission_classes = (IsOwnerOrReadOnly | IsJudger,)
-
-    # permission_classes = [IsOwnerOrReadOnly | IsJudger, ] 
-
     
     def retrieve(self, request, *args, **kwargs):
         # 重写了GET文件，此时可以直接
-        self.permission_classes = (  IsOwnerOrReadOnly | IsJudger | IsAdminUser,)
+        self.permission_classes = (  IsOwnerOrReadOnly | IsAdminUser,)
 
         instance = self.get_object()        
         file_handle = instance.file.open()
@@ -35,7 +31,7 @@ class FileViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
     def list(self, request, *args, **kwargs):
         # Standard bitwise operator have been overloaded in permission classes
         # ref: https://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy
-        self.permission_classes = (IsAdminUser | IsJudger,)
+        self.permission_classes = (IsAdminUser,)
         #print("{} {}".format(request.user, request.auth))
         self.check_permissions(request)
         

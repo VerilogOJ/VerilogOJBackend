@@ -6,15 +6,14 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'judge.judger_auth.JudgerAuthentication',
     ],
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if 'VERILOG_OJ_SECRET_KEY' not in os.environ:
-    raise Exception("Verilog OJ should have VERILOG_OJ_SECRET_KEY passed by envvars")
+#if 'VERILOG_OJ_SECRET_KEY' not in os.environ:
+    #raise Exception("Verilog OJ should have VERILOG_OJ_SECRET_KEY passed by envvars")
 
-SECRET_KEY = os.environ['VERILOG_OJ_SECRET_KEY']
+#SECRET_KEY = os.environ['VERILOG_OJ_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
