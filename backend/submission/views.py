@@ -53,7 +53,7 @@ class SubmissionViewSet(ReadOnlyModelViewSet):
         """
         if not hasattr(self.request, "user"):  # 生成文档用
             return SubmissionSerializer
-        elif self.request.auth == "Judger" or self.request.user.is_superuser:
+        elif self.request.user.is_superuser:
             if self.request.method == "GET" and (not "pk" in self.kwargs):
                 # Check if we're querying a specific one
                 # In list mode, the log and app_data is always hidden
@@ -103,7 +103,7 @@ class SubmissionResultViewSet(
         """
         if not hasattr(self.request, "user"):  # 生成文档用
             return SubmissionResultSerializer
-        elif self.request.auth == "Judger" or self.request.user.is_superuser:
+        elif self.request.user.is_superuser:
             return SubmissionResultSerializer
         elif self.request.method == "GET" and (not "pk" in self.kwargs):
             # Check if we're querying a specific one

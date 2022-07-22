@@ -30,5 +30,5 @@ ALLOWED_HOSTS = list(set([
     'localhost',
     'backend',      # reference by hostname, used by judgeworker
     os.environ['VERILOG_OJ_PUBLIC_HOST']
-]) | set(JUDGER_IP_WHITELIST))
+]))
 

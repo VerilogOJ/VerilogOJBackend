@@ -38,7 +38,7 @@ RUN (test ${USE_PIP_MIRROR} = yes \
        ) \
     && pip install gunicorn==20.0.4 \
     && apk del .build-deps \
-    && VERILOG_OJ_DEV=TRUE DOCKER_JUDGER_HOST_PATH=233 DOCKER_HOST_DIR=233 python manage.py collectstatic --noinput
+    && VERILOG_OJ_DEV=TRUE  python manage.py collectstatic --noinput
 
 # MySQL Stuff
 # RUN (test ${USE_MYSQL} = yes \ 
