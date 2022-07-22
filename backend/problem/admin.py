@@ -47,7 +47,6 @@ class ProblemAdmin(admin.ModelAdmin):
                     description_output=problem['description_output'],
                     top_module=problem['top_module'],
                 )
-                print("[DEBUG] 50")
                 for signal in problem['signals']:
                     new_signal = SignalName.objects.create(name=signal)
                     problem_to_save.signal_names.add(new_signal)
@@ -58,15 +57,11 @@ class ProblemAdmin(admin.ModelAdmin):
                 )
                 problem_to_save.template_code_file = code_template
                 
-                print("[DEBUG] 60")
-
                 code_reference = File.objects.create(
                     name='code_ref.v',
                     file=django.core.files.File(io.StringIO(initial_value=problem['code_reference']), name='code_ref.v')
                 )
                 problem_to_save.code_reference_file = code_reference
-
-                print("[DEBUG] 70")
 
                 for testbench in problem['code_testbenches']:
                     new_testbench_file = File.objects.create(
