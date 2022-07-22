@@ -233,7 +233,7 @@ class SubmitView(APIView):
                 # [调用后端判题服务上传这些文件]
 
                 print("[request started]")
-                response_origin = requests.post(url=url, data=json.dumps(request_data))
+                response_origin = requests.post(url=url, data=json.dumps(request_data),headers={"Host": "verilogojservices.judger"})
 
                 # [等待后端判题服务返回结果]
 
@@ -255,7 +255,7 @@ class SubmitView(APIView):
                             log=response["log"],
                             app_data=response["wavejson"],
                             possible_failure="NONE",
-                        )
+                        ).save()
                     else:
                         SubmissionResult.objects.create(  # TODO 这个create真的create了吗？
                             status="DONE",
@@ -265,7 +265,7 @@ class SubmitView(APIView):
                             log=response["log"],
                             app_data=response["wavejson"],
                             possible_failure="WA",
-                        )
+                        ).save()
                     return Response(serializer._data, status.HTTP_201_CREATED)
                 elif response_origin.status_code == 400:  # 判题过程中出错
                     print(f"[failed]")
@@ -279,7 +279,7 @@ class SubmitView(APIView):
                         log=response["log"] + response["error"],
                         app_data="",
                         possible_failure="CE",
-                    )
+                    ).save()
                 elif response_origin.status_code == 422:
                     Response(
                         "Validation Error" + response_origin.content,
