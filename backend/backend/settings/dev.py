@@ -10,7 +10,6 @@ REST_FRAMEWORK = {
         # TODO: comment on production
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'judge.judger_auth.JudgerAuthentication',
     ],
 }
 

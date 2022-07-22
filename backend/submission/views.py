@@ -7,7 +7,6 @@ from rest_framework.compat import coreapi, coreschema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import LimitOffsetPagination
-from judge.tasks import do_judge_task
 
 from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -18,12 +17,14 @@ from .serializers import SubmissionSerializer, SubmissionResultSerializer
 from .serializers import SubmissionPublicSerializer, SubmissionResultPublicSerializer
 from .serializers import SubmissionPublicListSerializer
 from user.permissions import GetOnlyPermission
-from judge.judger_auth import IsJudger
 from problem.models import Problem
+
+
 
 import django.utils
 import django.conf
-from ..backend.settings.base import MEDIA_ROOT # 文件根路径
+from django.conf import settings
+
 
 import requests  # https://requests.readthedocs.io/en/latest/
 import json
@@ -93,7 +94,7 @@ class SubmissionResultViewSet(
     queryset = SubmissionResult.objects.all()
     # serializer_class = SubmissionResultSerializer
     # TODO: 提交信息的查看权限问题
-    permission_classes = (GetOnlyPermission | IsJudger,)
+    permission_classes = (GetOnlyPermission,)
 
     def get_serializer_class(self):
         """
@@ -198,17 +199,17 @@ class SubmitView(APIView):
                 # - 学生的代码
                 # - testbench
                 file_code_reference = prob.judge_files.filter(name="code_ref.v").first() # TODO 这么写没问题吗？
-                file_code_ref_reletive_path = os.path.join(MEDIA_ROOT, file_code_reference.file)
+                file_code_ref_reletive_path = os.path.join(settings.MEDIA_ROOT, file_code_reference.file)
                 with open(file_code_ref_reletive_path, "r") as f:
                     code_reference: str = f.read()
 
                 file_code_student = prob.judge_files.get(name="code.v").first() # TODO 这么写没问题吗？
-                file_code_student_reletive_path = os.path.join(MEDIA_ROOT, file_code_student.file)
+                file_code_student_reletive_path = os.path.join(settings.MEDIA_ROOT, file_code_student.file)
                 with open(file_code_student_reletive_path, "r") as f:
                     code_student: str = f.read()
                 
                 file_testbench = prob.judge_files.get(name="testbench.v").first() # TODO 这么写没问题吗？
-                file_testbench_path = os.path.join(MEDIA_ROOT, file_testbench.file)
+                file_testbench_path = os.path.join(settings.MEDIA_ROOT, file_testbench.file)
                 with open(file_testbench_path, "r") as f:
                     testbench: str = f.read() # FIXME 目前指定只能有一个testbench
 
