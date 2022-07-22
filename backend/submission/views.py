@@ -12,7 +12,7 @@ from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 
-from .models import Submission, SubmissionResult
+from .models import Submission, SubmissionResult, File
 from .serializers import SubmissionSerializer, SubmissionResultSerializer
 from .serializers import SubmissionPublicSerializer, SubmissionResultPublicSerializer
 from .serializers import SubmissionPublicListSerializer
@@ -143,20 +143,19 @@ class SubmitView(APIView):
                 schema=coreschema.Integer(title="problem", description="要提交的题目ID"),
             ),
             coreapi.Field(
-                name="submit_files",
+                name="submit_file",
                 required=True,
                 location="form",
-                schema=coreschema.Array(
-                    title="submit_files",
-                    items=coreschema.Integer,
-                    description="要提交的文件（代码等）",
+                schema=coreschema.Integer(
+                    title="submit_file",
+                    description="学生编写的Verilog文件的ID 要求前端先上传文件",
                 ),
             ),
         ]
     )
 
     def post(self, request, *args):
-        print("[submission.SubmitView.post] 开始处理")
+        print("[DEBUG] submission.SubmitView.post 开始处理")
         # Fix bug: must check permission first
         self.check_permissions(request)
 
@@ -165,6 +164,7 @@ class SubmitView(APIView):
         # ref: https://stackoverflow.com/questions/44717442/this-querydict-instance-is-immutable
         data = request.data.copy()
         data["user"] = request.user.id # 这里增加了一个user域
+        print(f"[DEBUG] data {data}")
         serializer = SubmissionSerializer(data=data)
 
         # print(request.data)
@@ -172,6 +172,7 @@ class SubmitView(APIView):
         try:
             print("[DEBUG] 进入try块")
             serializer.is_valid(True)
+            print("[DEBUG] 数据验证成功")
 
             # (Optional) Checking for deadline time
             ddl = Problem.objects.filter(id=data["problem"])[0].deadline_time
@@ -181,15 +182,21 @@ class SubmitView(APIView):
                     "You've submitted it after deadline! {}".format(str(ddl)),
                     status.HTTP_400_BAD_REQUEST,
                 )
+            print("[DEBUG] 183")
 
             subm = serializer.save() # 存入数据库 这时`subm`为已经在数据库中的对象
-
+            print("[DEBUG] 186")
+            print(f"[DEBUG] serializer.data {serializer.data}")
             # Instantiate judge task for all testcases
             # Get all test cases related to this problem
             prob_id = serializer.data["problem"]
+            code_student_file_id = serializer.data["submit_file"]
             subm_id = subm.id
-            print("prob_id {} subm_id {}".format(prob_id, subm_id))
+            print("[DEBUG] prob_id {} subm_id {}".format(prob_id, subm_id))
+
             prob: Problem = Problem.objects.filter(id=prob_id).first()
+            code_student_file: File = File.objects.filter(id=code_student_file_id).first()
+            print("[DEBUG] 取数据完成")
             if prob == None:
                 return Response("No such problem", status.HTTP_404_NOT_FOUND)
             # 对于每一个测试点
@@ -200,11 +207,15 @@ class SubmitView(APIView):
                 # - 标准答案
                 # - 学生的代码
                 # - testbench
-                with open(subm.submit_file.path, "r") as f:
+                
+                print(f"[DEBUG] 211 code_student_file.file.path {code_student_file.file.path}")
+                with open(code_student_file.file.path, "r") as f:
                     code_student: str = f.read()
-                with open(prob.code_reference_file.path, "r") as f:
+                print("[DEBUG] 213")
+                with open(prob.code_reference_file.file.path, "r") as f:
                     code_reference: str = f.read()
-                with open(case.testbench_file.path, "r") as f:
+                print("[DEBUG] 217")
+                with open(case.testbench_file.file.path, "r") as f:
                     testbench: str = f.read()
 
                 # 需要的信息

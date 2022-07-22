@@ -42,7 +42,7 @@ class SubmissionPublicListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         # fields = '__all__'
-        exclude = ['submit_files']
+        exclude = ['submit_file']
 
 class SubmissionPublicSerializer(serializers.ModelSerializer):
     problem_belong = ProblemSerializer(source='problem', read_only=True)
@@ -57,4 +57,4 @@ class SubmissionPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         # fields = '__all__'
-        exclude = ['submit_files']
+        exclude = ['submit_file']
