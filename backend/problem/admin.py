@@ -28,13 +28,7 @@ class ProblemAdmin(admin.ModelAdmin):
         return ",".join([str(p.id) for p in obj.get_testcases()])
 
     def import_yaml(self, yaml_data):
-        def save_file_to_db(name, content):
-            file_inst = File.objects.create(
-                name=name,
-                file=django.core.files.File(io.StringIO(initial_value=content), name=name)
-            )
-            return file_inst
-
+        print("[DEBUG] 导入YAML文件开始")
         log = ""
         success = False
 
@@ -42,6 +36,7 @@ class ProblemAdmin(admin.ModelAdmin):
         log += "找到了 {} 个题目\n".format(len(problems))
         log += "开始存储题目...\n"
         try:
+            print("[DEBUG] 导入YAML文件开始 try块开始")
             for problem in problems:
                 log += "已存储 问题{}({})...\n".format(problem['id'], problem['name'])
                 problem_to_save = Problem.objects.create(
@@ -52,22 +47,43 @@ class ProblemAdmin(admin.ModelAdmin):
                     description_output=problem['description_output'],
                     top_module=problem['top_module'],
                 )
+                print("[DEBUG] 50")
                 for signal in problem['signals']:
                     new_signal = SignalName.objects.create(name=signal)
                     problem_to_save.signal_names.add(new_signal)
 
-                code_template = save_file_to_db('template.v', problem['code_template'])
+                code_template = File.objects.create(
+                    name='template.v',
+                    file=django.core.files.File(io.StringIO(initial_value=problem['code_template']), name='template.v')
+                )
                 problem_to_save.template_code_file = code_template
                 
-                code_reference = save_file_to_db('code_ref.v', problem['code_reference'])
-                problem_to_save.judge_files.add(code_reference)
+                print("[DEBUG] 60")
+
+                code_reference = File.objects.create(
+                    name='code_ref.v',
+                    file=django.core.files.File(io.StringIO(initial_value=problem['code_reference']), name='code_ref.v')
+                )
+                problem_to_save.code_reference_file = code_reference
+
+                print("[DEBUG] 70")
 
                 for testbench in problem['code_testbenches']:
-                    new_testbench = save_file_to_db('testbench.v', testbench) # FIXME 这里名字相同可能会冲突
-                    problem_to_save.judge_files.add(new_testbench)
+                    new_testbench_file = File.objects.create(
+                        name='testbench.v',
+                        file=django.core.files.File(io.StringIO(initial_value=testbench), name='testbench.v')
+                    )
+                    TestCase.objects.create(
+                        problem=problem_to_save,
+                        testbench_file=new_testbench_file
+                    ).save()
 
                 problem_to_save.save()
-        except:
+                print("[DEBUG] 添加成功")
+        except Exception as e:
+            print("[DEBUG] 出问题")
+            print(e)
+            log += str(e) + "\n"
             success = False
             log += "添加题目出错\n"
             return log, success

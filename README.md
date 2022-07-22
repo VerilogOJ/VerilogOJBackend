@@ -85,7 +85,7 @@ python -m pip install -r requirements.txt # once
 # 如果不用Docker判题环境 需要将`backend/backend/settings/dev.py`中的 `use_docker`修改为False（开发默认False 生产默认True） 否则会报错说缺少一些Docker相关的环境变量
 
 # 迁移数据库结构
-VERILOG_OJ_DEV=TRUE makemigrations user file problem submission news discussion
+VERILOG_OJ_DEV=TRUE python manage.py makemigrations user file problem submission news discussion
 # 创建数据库
 VERILOG_OJ_DEV=TRUE python manage.py migrate
 # 创建Django的超级用户的用户名和密码 在后台管理界面会用到 请妥善保管
