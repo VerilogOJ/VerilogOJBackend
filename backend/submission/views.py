@@ -17,7 +17,7 @@ from .serializers import SubmissionSerializer, SubmissionResultSerializer
 from .serializers import SubmissionPublicSerializer, SubmissionResultPublicSerializer
 from .serializers import SubmissionPublicListSerializer
 from user.permissions import GetOnlyPermission
-from problem.models import Problem
+from problem.models import Problem, SignalName
 
 
 
@@ -222,8 +222,9 @@ class SubmitView(APIView):
                 # - 顶层模块名称
                 # - 信号名称
                 top_module: str = prob.top_module
-                signal_names: List(str) = [signal.name for signal in prob.signal_names] # TODO 验证这里传入的是一个List或者Set
-                print(f"[DEBUG] top_module {top_module} signal_names {signal_names}")
+                print(f"[DEBUG] {SignalName.objects.filter(problem=prob)}")
+                signal_names: List(str) = [signal.name for signal in SignalName.objects.filter(problem=prob)] # TODO 把这里转一下 从对应的signal_names中取出
+                print(f"[DEBUG] 227 top_module {top_module} signal_names {signal_names}")
 
                 # [生成判题服务的请求]
 
@@ -234,6 +235,7 @@ class SubmitView(APIView):
                     "top_module": top_module,
                     "signal_names": signal_names,
                 }
+                print(f"[DEBUG] request_data {request_data}")
                 url = "http://166.111.223.67:1234"
 
                 # [调用后端判题服务上传这些文件]
