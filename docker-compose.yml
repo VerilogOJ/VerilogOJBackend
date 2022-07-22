@@ -22,7 +22,7 @@ services:
     environment:
       VERILOG_OJ_HOST_STATIC: "yes"
       #VERILOG_OJ_PROD_DEBUG: "yes"
-      VERILOG_OJ_JUDGER_SECRET: ${judger_secret}
+      #VERILOG_OJ_JUDGER_SECRET: ${judger_secret}
       VERILOG_OJ_SECRET_KEY: ${secret_key}
       VERILOG_OJ_USE_MYSQL: "yes"
       VERILOG_OJ_MYSQL_DATABASE: django_db
@@ -31,16 +31,13 @@ services:
       VERILOG_OJ_MYSQL_USER: django
       VERILOG_OJ_MYSQL_PASSWORD: ${mysql_password}
       VERILOG_OJ_PUBLIC_HOST: ${public_host}
-      VERILOG_OJ_RABBITMQ_PASSWORD: ${rabbitmq_password}
-      DOCKER_JUDGER_HOST_PATH: ${docker_judger_host_path}
-      DOCKER_HOST_DIR: ${docker_host_dir}
+      #VERILOG_OJ_RABBITMQ_PASSWORD: ${rabbitmq_password}
+      #DOCKER_JUDGER_HOST_PATH: ${docker_judger_host_path}
+      #DOCKER_HOST_DIR: ${docker_host_dir}
     volumes:
       - files-volume:/app/storage
     depends_on:
       - "db"
-      - "mqserver"
-      - "judgeworker"
-      - "judger-env"
 
   # Fix bug on Django entering Chinese characters
   # - The database connection settings only works with conn params
@@ -62,11 +59,6 @@ services:
       - db-volume:/var/lib/mysql
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
-  mqserver:
-    image: "rabbitmq:3.8-management"
-    environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: ${rabbitmq_password}
 
 volumes:
   db-volume:
