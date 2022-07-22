@@ -4,7 +4,9 @@ from file.models import File
 from django.db.models import F
 
 DEFAULT_USER_ID = 1
-
+class SignalName(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20,help_text='信号名字')
 class Problem(models.Model):
     id = models.AutoField(primary_key=True)
     logic_id = models.IntegerField(null=True, help_text='题目ID')
@@ -18,6 +20,8 @@ class Problem(models.Model):
         default=DEFAULT_USER_ID
     )
     
+    top_module = models.CharField(max_length=20, help_text='顶层模块名字')
+    signal_names = models.ManyToManyField(SignalName,help_text='题目中需要的信号',blank=True)
     level = models.IntegerField(default=1, help_text="难度等级")
     tags = models.CharField(max_length=100, help_text="题目标签", blank=True)
     description = models.TextField(help_text='题目描述（文字）')
