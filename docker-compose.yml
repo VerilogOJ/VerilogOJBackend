@@ -22,7 +22,7 @@ services:
     environment:
       VERILOG_OJ_HOST_STATIC: "yes"
       #VERILOG_OJ_PROD_DEBUG: "yes"
-      #VERILOG_OJ_JUDGER_SECRET: ${judger_secret}
+      VERILOG_OJ_JUDGER_SECRET: ${judger_secret}
       VERILOG_OJ_SECRET_KEY: ${secret_key}
       VERILOG_OJ_USE_MYSQL: "yes"
       VERILOG_OJ_MYSQL_DATABASE: django_db
