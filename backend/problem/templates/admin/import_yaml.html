@@ -3,7 +3,11 @@
 
 本功能可以帮助您从YAML文件一键导入题目和测试矢量。
 
-<h2>导入新的 Yaml</h2>
+<h2>状态信息</h2>
+
+{{ status_message|linebreaksbr }}
+
+<h2>导入题目</h2>
 
 <form action="." method="post">
     {% csrf_token %}
@@ -55,9 +59,5 @@
         <input type="submit" value="导入" class="default" style="float: left;">
     </div>
 </form>
-
-<h2>状态信息</h2>
-
-{{ status_message|linebreaksbr }}
 
 {% endblock %}
