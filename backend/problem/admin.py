@@ -95,13 +95,13 @@ class ProblemAdmin(admin.ModelAdmin):
             if 'yaml_context' not in request.POST:
                 stat_msg += "Error: yaml_context should be available in POST request"
             else:
-                stat_msg += "Processing begin\n"
+                stat_msg += "开始导入...\n"
                 log, success = self.import_yaml(request.POST['yaml_context'])
                 stat_msg += log
                 if not success:
-                    stat_msg += "Operation failed.\n"
+                    stat_msg += "导入失败...\n"
                 else:
-                    stat_msg += "Operation completed successfully.\n"
+                    stat_msg += "成功导入！\n"
         
         context = dict(
             self.admin_site.each_context(request),
