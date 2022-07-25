@@ -19,7 +19,7 @@ class ProblemAdmin(admin.ModelAdmin):
         TestCaseInline,
     ]
     change_list_template = ['admin/custom_change_list.html']
-    actions = ['export_yaml', 'export_binary_yaml']
+    # actions = ['export_yaml', 'export_binary_yaml']
 
     def total_grade(self, obj):
         return obj.get_total_grade()
@@ -38,7 +38,7 @@ class ProblemAdmin(admin.ModelAdmin):
         try:
             print("[DEBUG] 导入YAML文件开始 try块开始")
             for problem in problems:
-                log += "已存储 问题{}({})...\n".format(problem['id'], problem['name'])
+                log += "正在存储问题{}({})...\n".format(problem['id'], problem['name'])
                 problem_to_save = Problem.objects.create(
                     logic_id=problem['id'],
                     name=problem['name'],
@@ -74,6 +74,7 @@ class ProblemAdmin(admin.ModelAdmin):
                     ).save()
 
                 problem_to_save.save()
+                
                 print("[DEBUG] 添加成功")
         except Exception as e:
             print("[DEBUG] 出问题")

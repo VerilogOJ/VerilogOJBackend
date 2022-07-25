@@ -23,7 +23,7 @@
     );
         // 在这里输入你的代码 请不要修改模块和信号名称
     endmodule
-  code_reference.v: |-
+  code_reference: |-
     module Xnor( 
         input a, 
         input b, 
