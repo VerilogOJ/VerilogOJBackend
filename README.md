@@ -2,6 +2,48 @@
 
 > 以`Ubuntu server 20.04`为例
 
+## 开发
+
+### 下载源代码
+
+```sh
+git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git
+cd verilogojbackend
+cd backend
+```
+
+### 创建虚拟环境并安装依赖
+
+```sh
+# 使用`sudo apt update && sudo apt install python3-virtualenv`等命令安装Python虚拟环境
+# 激活创建并Python虚拟环境（或使用conda）
+virtualenv venv && . venv/bin/activate
+# 安装必要依赖
+python -m pip install -r requirements.txt
+```
+
+### 运行Django
+
+```sh
+# 迁移数据库结构
+VERILOG_OJ_DEV=TRUE python manage.py makemigrations user file problem submission news discussion
+# 创建数据库
+VERILOG_OJ_DEV=TRUE python manage.py migrate
+# 创建Django的超级用户的用户名和密码 在后台管理界面会用到 请妥善保管
+VERILOG_OJ_DEV=TRUE python manage.py createsuperuser # once
+# 启后端Django
+VERILOG_OJ_DEV=TRUE python manage.py runserver
+```
+
+- 打开<http://127.0.0.1:8000/oj/docs>可以查看后端所有接口
+- 打开<http://127.0.0.1:8000/oj/admin-django/>可以进行admin管理
+
+### 重新运行
+
+- 本地开发时，数据存在`backend/db.sqlite3`。
+    - 数据库相关的结构大改时，若产生冲突，可以删除该数据库文件。
+    - 如果在`makemigrations`或`migrate`阶段产生冲突，可以删除Django中所有app的`migrations/`重新建表。
+
 ## 生产
 
 ### 部署
@@ -39,8 +81,6 @@
 
 - API <http://166.111.223.67:40000/oj/api/>
 - 查看接口文档 <http://166.111.223.67:40000/oj/api/docs/>
-- Django管理 <http://166.111.223.67:40000/oj/admin-django/>
-    - 在<http://166.111.223.67:40000/oj/admin-django/problem/problem/import_yaml>中逐个复制粘贴仓库目录下`test-problems`内的资源文件内容，提交，即可在前端看到题目
 
 ### 部署失败
 
@@ -50,56 +90,13 @@
 - `sudo docker ps` `sudo docker rm -f ...`
 - `sudo docker images` `sudo docker rmi -f...`
 
-## 开发
+## 题目导入
 
-### 安装全局依赖
+以上步骤进行完毕后 可以导入题目 进行开发环境的部署测试。打开Django管理页面 逐个复制粘贴仓库目录下`test-problems`内的资源文件内容提交 即可在前端看到题目
 
-```sh
-sudo apt update && sudo apt upgrade # once
-sudo apt install build-essential python3-virtualenv yosys iverilog rabbitmq-server # once
-# 其中yosys和iverilog为Verilog综合仿真软件 rabbitmq负责在后端和判题模块中传递消息
-```
+按照`problem-bank/docs/add-problem.md`中的说明，先在`problem-bank/problems/`中编写题目。编写完成之后使用`problem-bank/gather_all_problem.py`的脚本将所有题目合成到一个文件内。
 
-### 下载源代码
-
-```sh
-git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git # once
-cd verilogojbackend
-cd backend
-```
-
-### 创建Python虚拟环境
-
-```sh
-# 激活创建并Python虚拟环境
-virtualenv venv
-. venv/bin/activate
-
-# 安装必要依赖
-python -m pip install -r requirements.txt # once
-```
-
-### 运行Django
-
-```sh
-# 如果不用Docker判题环境 需要将`backend/backend/settings/dev.py`中的 `use_docker`修改为False（开发默认False 生产默认True） 否则会报错说缺少一些Docker相关的环境变量
-
-# 迁移数据库结构
-VERILOG_OJ_DEV=TRUE python manage.py makemigrations user file problem submission news discussion
-# 创建数据库
-VERILOG_OJ_DEV=TRUE python manage.py migrate
-# 创建Django的超级用户的用户名和密码 在后台管理界面会用到 请妥善保管
-VERILOG_OJ_DEV=TRUE python manage.py createsuperuser # once
-# 启后端Django
-VERILOG_OJ_DEV=TRUE python manage.py runserver
-```
-
-- 打开<http://127.0.0.1:8000/oj/docs>可以查看后端所有接口
-- 打开<http://127.0.0.1:8000/oj/admin-django/>可以进行admin管理
-
-### 题目导入
-
-以上步骤进行完毕后 可以导入题目 进行开发环境的部署测试。打开Django管理页面<http://127.0.0.1:8000/oj/admin-django/problem/problem/import_yaml> 逐个复制粘贴仓库目录下`test-problems`内的资源文件内容提交 即可在前端看到题目
+然后打开Django管理页面（<http://127.0.0.1:8000/oj/admin-django/problem/problem/import_yaml>或<http://166.111.223.67:40000/oj/admin-django/problem/problem/import_yaml>），点击`Problem`，右上角选择`从YAML文件导入`，复制`problem-bank/all_problems.yaml`点击提交即可导入。
 
 ## Open Source Projects
 
