@@ -1,0 +1,58 @@
+- id: 101
+  name: "3-8译码器"
+  description: |-
+    3-8译码器
+
+    该模块将3bit输入转为8bit输出
+  description_input: |-
+    - `x`: 3bit
+  description_output: |-
+    - `y`: 8bit
+
+  top_module: "decoder"
+  signals: ["x","y"]
+
+  code_template: |-
+    module decoder(
+        input [2:0] x,
+        output reg [7:0] y
+    );
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference: |-
+    module decoder(
+        input [2:0] x,
+        output reg [7:0] y
+    );
+        always @ (*) begin
+            case (x)
+            3'b000: y=8'b0000_0001;
+            3'b001: y=8'b0000_0010;
+            3'b010: y=8'b0000_0100;
+            3'b011: y=8'b0000_1000;
+            3'b100: y=8'b0001_0000;
+            3'b101: y=8'b0010_0000;
+            3'b110: y=8'b0100_0000;
+            3'b111: y=8'b1000_0000;
+            endcase
+        end
+    endmodule
+  code_testbenches:
+    - |-
+      module testbench();
+          reg [2:0] x;
+          wire [7:0] y;
+          decoder DUT(x, y);
+          
+          initial begin
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
+          end
+
+          integer i;
+          initial begin
+              for (i = 0; i < 8; i = i + 1) begin
+                  #1 x = i;
+              end
+          end
+      endmodule

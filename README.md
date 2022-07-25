@@ -30,7 +30,8 @@ VERILOG_OJ_DEV=TRUE python manage.py makemigrations user file problem submission
 # 创建数据库
 VERILOG_OJ_DEV=TRUE python manage.py migrate
 # 创建Django的超级用户的用户名和密码 在后台管理界面会用到 请妥善保管
-VERILOG_OJ_DEV=TRUE python manage.py createsuperuser # once
+VERILOG_OJ_DEV=TRUE python manage.py createsuperuser
+
 # 启后端Django
 VERILOG_OJ_DEV=TRUE python manage.py runserver
 ```

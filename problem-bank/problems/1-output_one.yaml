@@ -1,7 +1,7 @@
 - id: 1
   name: "输出1"
   description: |-
-    编写Verilog代码，使电路输出信号1
+    电路输出单比特信号`1`
   description_input: |-
     无
   description_output: |-
@@ -37,4 +37,3 @@
               #1;
           end
       endmodule
-    

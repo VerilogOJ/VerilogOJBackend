@@ -1,12 +1,13 @@
 - id: 0
-  name: "Output Zero"
+  name: "输出0"
   description: |-
-    欢迎您，Verilog OJ 的用户！~
-    这次的题目旨在帮助您上手 Verilog OJ。请您构造一个没有输入且只有一个输出常值 0 的电路。
+    欢迎来到清华大学电子系VerilogOJ练习平台！
+    最开始的这道题目希望帮助您快速上手VerilogOJ——
+    请您构造一个输出常值`0`的电路。
   description_input: |-
-    这个题目没有输入信号。
+    无输入信号
   description_output: |-
-    这个题目中，您应该输出常值信号 0。
+    输出单比特常值信号`0`
 
   top_module: "Zero"
   signals: ["out"]
@@ -27,7 +28,7 @@
     - |-
       module testbench();
           wire out;
-          Zero myZero(y);
+          Zero myZero(out);
 
           initial begin
               $dumpfile(`DUMP_FILE_NAME);
@@ -38,4 +39,3 @@
               #1;
           end
       endmodule
-    
