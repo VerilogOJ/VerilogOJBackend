@@ -25,7 +25,8 @@ class DownloadFileWidget(widgets.AdminFileWidget):
 
 # ref: https://stackoverflow.com/questions/51492206/how-can-i-add-a-link-to-download-a-file-in-a-django-admin-detail-page/
 class FileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'total_ref' ,'ref_in_problem', 'ref_in_testcase', 'ref_in_submission')
+    # ref用来计算关联数量
+    list_display = ('id', 'name', 'file', 'total_ref' ,'ref_in_problem', 'ref_in_testcase', 'ref_in_submission')
     my_id_for_formfield = None
     actions = ['clear_unreferenced']
 
@@ -47,13 +48,14 @@ class FileAdmin(admin.ModelAdmin):
     def ref_in_problem(self, obj):
         # NOTE: the obj.problem_set method WILL NOT join all the three, since RelationManager is only
         #       bound to one of them
-        return len(obj.description.all()) + len(obj.judge.all()) + len(obj.template_code.all())
+        # 注意这里使用related_name
+        return len(obj.template_code.all()) + len(obj.reference_code.all())
 
     def ref_in_testcase(self, obj):
-        return len(obj.testcase_set.all())
+        return len(obj.testbench.all())
 
     def ref_in_submission(self, obj):
-        return len(obj.submission_set.all())
+        return len(obj.code_student.all())
 
     # Notice: This rely on the calling sequence (get_form -> formfield_for_dbfield)
     def get_form(self, request, obj=None, **kwargs):
