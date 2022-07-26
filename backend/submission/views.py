@@ -56,13 +56,13 @@ class SubmissionViewSet(ReadOnlyModelViewSet):
         elif self.request.user.is_superuser:
             if self.request.method == "GET" and (not "pk" in self.kwargs):
                 # Check if we're querying a specific one
-                # In list mode, the log and app_data is always hidden
+                # In list mode, the log and wave_json is always hidden
                 return SubmissionPublicListSerializer
             else:
                 return SubmissionSerializer
         elif self.request.method == "GET" and (not "pk" in self.kwargs):
             # Check if we're querying a specific one
-            # In list mode, the log and app_data is always hidden
+            # In list mode, the log and wave_json is always hidden
             return SubmissionPublicListSerializer
         elif self.request.method == "GET" and "pk" in self.kwargs:
             # In retrieve mode
@@ -107,7 +107,7 @@ class SubmissionResultViewSet(
             return SubmissionResultSerializer
         elif self.request.method == "GET" and (not "pk" in self.kwargs):
             # Check if we're querying a specific one
-            # In list mode, the log and app_data is always hidden
+            # In list mode, the log and wave_json is always hidden
             return SubmissionResultPublicSerializer
         elif self.request.method == "GET" and "pk" in self.kwargs:
             # In retrive mode
@@ -259,9 +259,9 @@ class SubmitView(APIView):
                             status="DONE",
                             submission=subm,  # 一个提交结果唯一对应学生的一次提交
                             testcase=case,  # 一个提交结果唯一对应题目的一个testcase
-                            grade=10,  # 判题结束后 学生答对则10分 答错则0分
+                            grade=1,  # 判题结束后 学生答对则1分 答错则0分
                             log=response["log"],
-                            app_data=response["wavejson"],
+                            wave_json=response["wavejson"],
                             possible_failure="NONE",
                         ).save()
                     else:
@@ -271,7 +271,7 @@ class SubmitView(APIView):
                             testcase=case,
                             grade=0,
                             log=response["log"],
-                            app_data=response["wavejson"],
+                            wave_json=response["wavejson"],
                             possible_failure="WA",
                         ).save()
                     return Response(serializer._data, status.HTTP_201_CREATED)
@@ -285,7 +285,7 @@ class SubmitView(APIView):
                         testcase=case,
                         grade=0,
                         log=response["log"] + response["error"],
-                        app_data="",
+                        wave_json="",
                         possible_failure="CE",
                     ).save()
                 elif response_origin.status_code == 422:

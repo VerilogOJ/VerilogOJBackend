@@ -52,7 +52,7 @@ class ProblemViewSet(ModelViewSet):
             return ProblemSerializer
         elif self.request.method == 'GET' and (not 'pk' in self.kwargs):
             # Check if we're querying a specific one
-            # In list mode, the log and app_data is always hidden
+            # In list mode, the log and wave_json is always hidden
             return ProblemAdvancedListSerializer
         else:
             return ProblemSerializer

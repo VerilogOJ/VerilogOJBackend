@@ -44,7 +44,7 @@ submit 中保存着用户提交的文件，对于现在的版本而言，用户�
 
 在阅读此段落前，可以考虑先阅读 [3-8 Decoder 的 Yaml 导入文件](https://github.com/lluckydog/Verilog-OJ/blob/ad8232c2e182b4eb7150b9a3a4b285992c796eef/assets/decoder_38.yml) 作为起手。
 
-Yaml 中的 `app_data` 字段为传递给 OJ 中 Sample Waveform 的 WaveJSON 数据。WaveJSON 的相关信息可以从 WaveDrom 项目处寻得。此处需要注意所有字符串字面值必须用双引号括起来（""），否则即使在 WaveDrom 的编辑器中可以渲染的字符串在这里也可能会出现问题。
+Yaml 中的 `wave_json` 字段为传递给 OJ 中 Sample Waveform 的 WaveJSON 数据。WaveJSON 的相关信息可以从 WaveDrom 项目处寻得。此处需要注意所有字符串字面值必须用双引号括起来（""），否则即使在 WaveDrom 的编辑器中可以渲染的字符串在这里也可能会出现问题。
 
 > 当出现问题时，前端会显示 “Sorry, no waveform available”，同时在控制台打出报错信息。控制台即按 F12 打开的审查元素界面中的 Console。
 
@@ -57,7 +57,7 @@ Yaml 的 testcases 对应着测试点信息。其中 `main.sh` 会被判题机�
   - 如果没有错误，里面应为 `NONE`
   - 出现编译（由于 Verilog 语法错误，而使得解析器无法正常解析）错误，里面应为 `CE`
   - 编译无错但运行的结果和答案不一致，里面应为 `WA`
-- `/app_data.txt`，其中包含本测试点所需要输出的波形（WaveJSON 格式，将被显示在本提交的本测试点测试详情中）
+- `/wave_json.txt`，其中包含本测试点所需要输出的波形（WaveJSON 格式，将被显示在本提交的本测试点测试详情中）
 
 测试脚本的 stdout 和 stderr 将会被记录，并且作为测试点的 log_data 提交给后端，最终用户可以在后端一并看到这些内容。
 
@@ -70,6 +70,6 @@ Yaml 的 testcases 对应着测试点信息。其中 `main.sh` 会被判题机�
 2. 用 testbench.v 在 iverilog 上仿真一遍做题者编写的 code.v，得到 vcd 波形文件输出 out_dut.vcd
 3. 用基于 pyDigitalWaveTools 编写的 Python 比较脚本比较两个波形中某些信号是否一致，如果不一致返回 1，一致返回 0
    并且根据此信息，进行本题答案赋分
-4. 用 vcd_visualize.py 将 vcd 的某些信号转换为 WaveJSON 放入 app_data.txt 中，以供用户参考
+4. 用 vcd_visualize.py 将 vcd 的某些信号转换为 WaveJSON 放入 wave_json.txt 中，以供用户参考
 
 您在本系统出自己的题目时，也可以参照此模式。

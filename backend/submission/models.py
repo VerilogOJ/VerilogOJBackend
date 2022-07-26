@@ -103,7 +103,7 @@ class SubmissionResult(models.Model):
     grade = models.IntegerField(help_text='本测试点所得的分数')
     log = models.TextField(help_text='判题过程中输出的log', blank=True)
     # 如果文件系统中存了一份那其实就没必要再在数据库中存了
-    app_data = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
+    wave_json = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
     logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
     circuit_diagram_data = models.TextField(help_text='电路元件图（由用户上传的verilog代码生成）', blank=True)
     
