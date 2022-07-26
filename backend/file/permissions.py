@@ -17,7 +17,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # return obj.owner == request.user
 
         if obj.name == "code.v":
-            sub = Submission.objects.filter(submit_files=obj)
+            sub = Submission.objects.filter(submit_file=obj)
             if sub[0].user == request.user :
                 return True
             else:
