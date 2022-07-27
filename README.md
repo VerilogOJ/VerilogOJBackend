@@ -85,10 +85,10 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
 
 ### 部署失败
 
-用下列命令查看并删除后端相关数据、容器、镜像，重新执行第一次部署
+用下列命令查看并删除后端相关容器、数据、镜像，重新执行第一次部署
 
-- `sudo docker volume ls` `sudo docker volume rm -f ...`（注意备份）
 - `sudo docker ps` `sudo docker rm -f ...`
+- `sudo docker volume ls` `sudo docker volume rm -f ...`（注意备份）
 - `sudo docker images` `sudo docker rmi -f...`
 
 ## 题目导入
