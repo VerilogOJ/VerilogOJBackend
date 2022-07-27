@@ -1,8 +1,16 @@
+from dbm.ndbm import library
 from django.db import models
 
 from problem.models import Problem, TestCase
 from file.models import File
 from user.models import User
+
+class LibraryMapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    circuit_svg = models.TextField(help_text="元件库生成电路图",blank=True)
+    resources_report = models.TextField(help_text="元件库资源占用报告",blank=True)
+    log = models.TextField(help_text="元件库log",blank=True)
+    mapping_error = models.TextField(help_text="元件库错误",blank=True)
 
 class Submission(models.Model):
     id = models.AutoField(primary_key=True, help_text='提交ID')
@@ -105,8 +113,10 @@ class SubmissionResult(models.Model):
     # 如果文件系统中存了一份那其实就没必要再在数据库中存了
     wave_json = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
     logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
-    circuit_diagram_data = models.TextField(help_text='电路元件图（由用户上传的verilog代码生成）', blank=True)
-    
+    logic_circuit_possible_error = models.TextField(help_text='逻辑电路图生成过程中错误', blank=True)
+    yosys_cmos_result = models.ManyToManyField(LibraryMapping,help_text='yosys_cmos元件库生成电路图和资源报告',blank=True,related_name="yosys_cmos_result")
+    google_130nm_result = models.ManyToManyField(LibraryMapping,help_text='google_130nm元件库生成电路图和资源报告',blank=True,related_name="google_130nm_result")
+    xilinx_fpga_result = models.ManyToManyField(LibraryMapping,help_text='xilinx_fpga元件库生成电路图和资源报告',blank=True,related_name="xilinx_fpga_result")
     class Meta:
         unique_together = (('submission', 'testcase'),)
     
