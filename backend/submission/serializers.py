@@ -10,6 +10,10 @@ class LibraryMappingSerializer(serializers.ModelSerializer):
 
 class SubmissionResultSerializer(serializers.ModelSerializer):
     result = serializers.CharField(source='get_result', read_only=True)
+
+    library_mapping_yosys_cmos = LibraryMappingSerializer(source='yosys_cmos_result', read_only=True)
+    library_mapping_google_130nm = LibraryMappingSerializer(source='google_130nm_result', read_only=True)
+    library_mapping_xilinx_fpga = LibraryMappingSerializer(source='xilinx_fpga_result', read_only=True)
     
     class Meta:
         model = SubmissionResult
@@ -18,10 +22,6 @@ class SubmissionResultSerializer(serializers.ModelSerializer):
 
 class SubmissionResultPublicSerializer(serializers.ModelSerializer):
     result = serializers.CharField(source='get_result', read_only=True)
-
-    library_mapping_yosys_cmos = LibraryMappingSerializer(source='yosys_cmos_result', read_only=True)
-    library_mapping_google_130nm = LibraryMappingSerializer(source='google_130nm_result', read_only=True)
-    library_mapping_xilinx_fpga = LibraryMappingSerializer(source='xilinx_fpga_result', read_only=True)
 
     class Meta:
         model = SubmissionResult
