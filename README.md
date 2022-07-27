@@ -55,8 +55,9 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
     - 在`.env`中修改生产部署的环境变量值 **请务必修改其中的账户密码**
     - `git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git`
     - `cd verilogojbackend`
-    - `sudo docker compose up --detach`
+    - `sudo docker compose up --detach --build`
         - `--detach` Detached mode: Run containers in the background, print new container names.
+        - `--build` Build images before starting containers. 重新构建依赖的images 防止直接使用之前的旧镜像
     - 初始化Django数据库和创建超级用户
         - 进入backend容器
             - `sudo docker ps | grep _backend`
@@ -85,10 +86,10 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
 
 ### 部署失败
 
-用下列命令查看并删除后端相关数据、容器、镜像，重新执行第一次部署
+用下列命令查看并删除后端相关容器、数据、镜像，重新执行第一次部署
 
+- `sudo docker compose down`或`sudo docker ps` `sudo docker rm -f ...`
 - `sudo docker volume ls` `sudo docker volume rm -f ...`（注意备份）
-- `sudo docker ps` `sudo docker rm -f ...`
 - `sudo docker images` `sudo docker rmi -f...`
 
 ## 题目导入
@@ -102,4 +103,3 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
 ## Open Source Projects
 
 - [YAVGroup/Verilog-OJ](https://github.com/YAVGroup/Verilog-OJ) [AGPL-3.0 license](https://github.com/YAVGroup/Verilog-OJ/blob/master/LICENSE)
-- [libreliu/pyDigitalWaveTools](https://github.com/libreliu/pyDigitalWaveTools) [MIT license](https://github.com/libreliu/pyDigitalWaveTools/blob/master/LICENSE)

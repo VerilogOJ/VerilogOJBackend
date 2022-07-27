@@ -408,7 +408,7 @@ class SubmitView(APIView):
                     print(f"[failed]")
                     print(f'[error] {response["error"]}')
                     print(f'[log] {response["log"]}')
-                    SubmissionResult.objects.create(  # TODO 这个create真的create了吗？
+                    SubmissionResult.objects.create(
                         status="DONE",
                         submission=subm,
                         testcase=case,
