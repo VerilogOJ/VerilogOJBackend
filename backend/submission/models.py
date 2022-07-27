@@ -12,6 +12,7 @@ class LibraryMapping(models.Model):
     log = models.TextField(help_text="元件库log",blank=True)
     mapping_error = models.TextField(help_text="元件库错误",blank=True)
 
+
 class Submission(models.Model):
     id = models.AutoField(primary_key=True, help_text='提交ID')
     problem = models.ForeignKey(

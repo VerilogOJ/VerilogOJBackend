@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Submission, SubmissionResult
+from .models import Submission, SubmissionResult, LibraryMapping
 from problem.serializers import ProblemSerializer, ProblemListSerializer
 from user.serializers import UserSerializer, UserPublicSerializer, UserPublicListSerializer
+
+class LibraryMappingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LibraryMapping
+        fields = '__all__'
 
 class SubmissionResultSerializer(serializers.ModelSerializer):
     result = serializers.CharField(source='get_result', read_only=True)
@@ -13,7 +18,11 @@ class SubmissionResultSerializer(serializers.ModelSerializer):
 
 class SubmissionResultPublicSerializer(serializers.ModelSerializer):
     result = serializers.CharField(source='get_result', read_only=True)
-    
+
+    library_mapping_yosys_cmos = LibraryMappingSerializer(source='yosys_cmos_result', read_only=True)
+    library_mapping_google_130nm = LibraryMappingSerializer(source='google_130nm_result', read_only=True)
+    library_mapping_xilinx_fpga = LibraryMappingSerializer(source='xilinx_fpga_result', read_only=True)
+
     class Meta:
         model = SubmissionResult
         #fields = '__all__'
@@ -50,8 +59,6 @@ class SubmissionPublicSerializer(serializers.ModelSerializer):
     
     results = SubmissionResultPublicSerializer(source='get_results', read_only=True, many=True)
     total_grade = serializers.IntegerField(source='get_total_grade', read_only=True)
-    # judged = serializers.BooleanField(source='have_judged', read_only=True)
-    # ac = serializers.BooleanField(source='is_ac', read_only=True)
     result = serializers.CharField(source='get_result', read_only=True)
     
     class Meta:
