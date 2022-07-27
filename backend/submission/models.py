@@ -114,9 +114,9 @@ class SubmissionResult(models.Model):
     wave_json = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
     logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
     logic_circuit_possible_error = models.TextField(help_text='逻辑电路图生成过程中错误', blank=True)
-    yosys_cmos_result = models.ManyToManyField(LibraryMapping,help_text='yosys_cmos元件库生成电路图和资源报告',blank=True,related_name="yosys_cmos_result")
-    google_130nm_result = models.ManyToManyField(LibraryMapping,help_text='google_130nm元件库生成电路图和资源报告',blank=True,related_name="google_130nm_result")
-    xilinx_fpga_result = models.ManyToManyField(LibraryMapping,help_text='xilinx_fpga元件库生成电路图和资源报告',blank=True,related_name="xilinx_fpga_result")
+    yosys_cmos_result = models.models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="yosys_cmos_result")
+    google_130nm_result = models.models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="google_130nm_result")
+    xilinx_fpga_result = models.models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="xilinx_fpga_result")
     class Meta:
         unique_together = (('submission', 'testcase'),)
     
