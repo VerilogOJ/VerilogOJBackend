@@ -55,8 +55,9 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
     - 在`.env`中修改生产部署的环境变量值 **请务必修改其中的账户密码**
     - `git clone git@git.tsinghua.edu.cn:eeverilogoj/verilogojbackend.git`
     - `cd verilogojbackend`
-    - `sudo docker compose up --detach`
+    - `sudo docker compose up --detach --build`
         - `--detach` Detached mode: Run containers in the background, print new container names.
+        - `--build` Build images before starting containers. 重新构建依赖的images 防止直接使用之前的旧镜像
     - 初始化Django数据库和创建超级用户
         - 进入backend容器
             - `sudo docker ps | grep _backend`
@@ -87,7 +88,7 @@ VERILOG_OJ_DEV=TRUE python manage.py runserver
 
 用下列命令查看并删除后端相关容器、数据、镜像，重新执行第一次部署
 
-- `sudo docker ps` `sudo docker rm -f ...`
+- `sudo docker compose down`或`sudo docker ps` `sudo docker rm -f ...`
 - `sudo docker volume ls` `sudo docker volume rm -f ...`（注意备份）
 - `sudo docker images` `sudo docker rmi -f...`
 
