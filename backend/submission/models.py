@@ -106,7 +106,8 @@ class SubmissionResult(models.Model):
     wave_json = models.TextField(help_text='仿真获得的WaveJSON（由用户上传的verilog代码生成）', blank=True)
     logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
     circuit_diagram_data = models.TextField(help_text='电路元件图（由用户上传的verilog代码生成）', blank=True)
-    
+    logic_circuit_possible_error = models.TextField(help_text='逻辑电路图生成过程中错误', blank=True)
+
     class Meta:
         unique_together = (('submission', 'testcase'),)
     
