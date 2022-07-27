@@ -1,3 +1,4 @@
+from dbm.ndbm import library
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
@@ -12,7 +13,7 @@ from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 
-from .models import Submission, SubmissionResult, File
+from .models import Submission, SubmissionResult, File, LibraryMapping
 from .serializers import SubmissionSerializer, SubmissionResultSerializer
 from .serializers import SubmissionPublicSerializer, SubmissionResultPublicSerializer
 from .serializers import SubmissionPublicListSerializer
@@ -257,7 +258,7 @@ class SubmitView(APIView):
                 
                     # [生成生成逻辑电路图的请求]
                     request_netlistdata = {
-                    "verilog_sources": code_student,
+                    "verilog_sources": [code_student],
                     "top_module": top_module,
                     }
                     print(f"[DEBUG] request_netlistdata{request_netlistdata}")
@@ -281,7 +282,96 @@ class SubmitView(APIView):
                         logic_circuit_possible_failure = response_net["error"]
                         logic_circuit_log = response_net["log"]
                     
-                    # [将逻辑电路图写回数据库]
+                    request_librarydata = {
+                        "verilog_sources": [code_student],
+                        "top_module": top_module,
+                        "library_type" : "yosys_cmos",
+                    }
+                    response_library = requests.post(url=url, data=json.dumps(request_librarydata),headers={"Host": "verilogojservices.verilogsources2librarymapping"})
+                    if response_library.status_code == 200:
+                        response_lib = json.loads(response_library.content)
+                        library_mapping_circuitsvg = response_lib["circuit_svg"]
+                        library_mapping_resourcereports = response_lib["resources_report"]
+                        library_mapping_possible_failure = ""
+                        library_mapping_log = response_lib["log"]
+                        yosys_cmos_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
+                    elif response_library.status_code == 400:
+                        response_lib = json.loads(json.loads(response_library.content)["detail"])
+                        library_mapping_circuitsvg = ""
+                        library_mapping_resourcereports = ""
+                        library_mapping_possible_failure = response_lib["error"]
+                        library_mapping_log = response_lib["log"]
+                        yosys_cmos_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
+                    request_librarydata = {
+                        "verilog_sources": [code_student],
+                        "top_module": top_module,
+                        "library_type" : "google_130nm",
+                    }
+                    response_library = requests.post(url=url, data=json.dumps(request_librarydata),headers={"Host": "verilogojservices.verilogsources2librarymapping"})
+                    if response_library.status_code == 200:
+                        response_lib = json.loads(response_library.content)
+                        library_mapping_circuitsvg = response_lib["circuit_svg"]
+                        library_mapping_resourcereports = response_lib["resources_report"]
+                        library_mapping_possible_failure = ""
+                        library_mapping_log = response_lib["log"]
+                        google_130nm_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
+                    elif response_library.status_code == 400:
+                        response_lib = json.loads(json.loads(response_library.content)["detail"])
+                        library_mapping_circuitsvg = ""
+                        library_mapping_resourcereports = ""
+                        library_mapping_possible_failure = response_lib["error"]
+                        library_mapping_log = response_lib["log"]
+                        google_130nm_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
+                    request_librarydata = {
+                        "verilog_sources": [code_student],
+                        "top_module": top_module,
+                        "library_type" : "xilinx_fpga",
+                    }
+                    response_library = requests.post(url=url, data=json.dumps(request_librarydata),headers={"Host": "verilogojservices.verilogsources2librarymapping"})
+                    if response_library.status_code == 200:
+                        response_lib = json.loads(response_library.content)
+                        library_mapping_circuitsvg = response_lib["circuit_svg"]
+                        library_mapping_resourcereports = response_lib["resources_report"]
+                        library_mapping_possible_failure = ""
+                        library_mapping_log = response_lib["log"]
+                        xilinx_fpga_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
+                    elif response_library.status_code == 400:
+                        response_lib = json.loads(json.loads(response_library.content)["detail"])
+                        library_mapping_circuitsvg = ""
+                        library_mapping_resourcereports = ""
+                        library_mapping_possible_failure = response_lib["error"]
+                        library_mapping_log = response_lib["log"]
+                        xilinx_fpga_library_mapping = LibraryMapping.objects.create(
+                            circuit_svg=library_mapping_circuitsvg,
+                            resources_report=library_mapping_resourcereports,
+                            log=library_mapping_log,
+                            mapping_error=library_mapping_possible_failure,
+                        )
                     print(f"[mysuccessed]")
                     print(f'[mylog] {response_net["log"]}')
                     if response["is_correct"]:
@@ -295,6 +385,9 @@ class SubmitView(APIView):
                             possible_failure="NONE",
                             logic_circuit_data=netlistsvg,
                             logic_circuit_possible_error=logic_circuit_possible_failure,
+                            yosys_cmos_result = yosys_cmos_library_mapping,
+                            google_130nm_result = google_130nm_library_mapping,
+                            xilinx_fpga_result = xilinx_fpga_library_mapping,
                         ).save()
                     else:
                         SubmissionResult.objects.create(
