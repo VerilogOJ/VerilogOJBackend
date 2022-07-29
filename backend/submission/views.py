@@ -253,9 +253,10 @@ class SubmitView(APIView):
                 # [将判题结果写回数据库]
 
                 if response_judge.status_code == 200:  # 判题成功结束
+                    response = json.loads(response_judge.content)
+                    
                     print(f"[successed]")
                     print(f'[log] {response["log"]}')
-                    response = json.loads(response_judge.content)
 
                     # [生成生成逻辑电路图的请求]
                     request_netlistdata = {
