@@ -407,8 +407,8 @@ class SubmitView(APIView):
                 elif response_judge.status_code == 400:  # 判题过程中出错
                     response = json.loads(json.loads(response_judge.content)["detail"])
                     print(f"[failed]")
-                    print(f'[error] {response["error"]}')
-                    print(f'[log] {response["log"]}')
+                    print(f'[error]\n{response["error"]}')
+                    print(f'[log]\n{response["log"]}')
                     SubmissionResult.objects.create(
                         status="DONE",
                         submission=subm,
@@ -417,7 +417,8 @@ class SubmitView(APIView):
                         log=response["log"] + response["error"],
                         wave_json="",
                         possible_failure="CE",
-                    ).save()
+                    ).save() 
+                    return Response(serializer._data, status.HTTP_201_CREATED)
                 elif response_judge.status_code == 422:
                     return Response(
                         "Validation Error" + response_judge.content,
