@@ -248,14 +248,15 @@ class SubmitView(APIView):
 
                 print("[request ended]")
                 print(f"[status_code] {response_judge.status_code}")
-                response = json.loads(response_judge.content)
+                
 
                 # [将判题结果写回数据库]
 
                 if response_judge.status_code == 200:  # 判题成功结束
                     print(f"[successed]")
                     print(f'[log] {response["log"]}')
-                
+                    response = json.loads(response_judge.content)
+
                     # [生成生成逻辑电路图的请求]
                     request_netlistdata = {
                     "verilog_sources": [code_student],
@@ -404,7 +405,7 @@ class SubmitView(APIView):
                     
                     return Response(serializer._data, status.HTTP_201_CREATED)
                 elif response_judge.status_code == 400:  # 判题过程中出错
-                    response = json.loads(json.loads(response.content)["detail"])
+                    response = json.loads(json.loads(response_judge.content)["detail"])
                     print(f"[failed]")
                     print(f'[error] {response["error"]}')
                     print(f'[log] {response["log"]}')
