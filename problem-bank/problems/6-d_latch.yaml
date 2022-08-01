@@ -1,0 +1,58 @@
+- id: 6
+  name: "D锁存器"
+  description: |-
+     锁存器,是数字电路中的一种具有记忆功能的逻辑元件,只有在有锁存信号时输入的状态被保存到输出，直到下一个锁存信号。
+     本题中，你需要创建一个D锁存器，在使能信号ena为高电平时将输入保存到输出。
+  description_input: |-
+    - `d`: 1bit
+    - `ena`: 1bit
+  description_output: |-
+    - `q`: 1bit
+
+  top_module: "D_latch"
+  signals: ["d","ena","q"]
+
+  code_template: |-
+    module D_latch(
+        input d, 
+        input ena,
+        output q
+    );
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference: |-
+    module D_latch(
+        input d, 
+        input ena,
+        output q
+    );    
+        always@(*) begin
+            if(ena)
+              q = d;
+            else
+              q = q;
+        end
+    endmodule
+  code_testbenches:
+    - |-
+      module testbench();
+          reg d;
+          reg ena;
+          wire q;
+          D_latch DLT(d, ena, q);
+          
+          initial begin
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
+          end
+
+          initial begin
+              clk = 0; d = 1;
+              #3 d=0  
+          end
+
+          always begin
+              #2 clk = ~clk;
+          end
+
+      endmodule

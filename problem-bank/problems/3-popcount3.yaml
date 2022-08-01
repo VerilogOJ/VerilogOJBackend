@@ -1,0 +1,46 @@
+- id: 3
+  name: "3-bit population count"
+  description: |-
+    为3位输入向量构建计数电路，计算向量的二进制表示中有多少个是“1”。
+
+  description_input: |-
+    - `in`: 3bit
+    
+  description_output: |-
+    - `out`: 2bit
+
+  top_module: "population_count"
+  signals: ["in","out"]
+
+  code_template: |-
+    module population_count( 
+        input [2:0] in, 
+        output [1:0] out  );
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference: |-
+    module population_count(
+        input [2:0] in,
+        output [1:0] out
+    );
+        assign out = in[2] + in[1] + in[0];
+    endmodule
+  code_testbenches:
+    - |-
+      module testbench();
+          reg [2:0] in;
+          wire [1:0] out;
+          population_count PopCount(in, out);
+          
+          initial begin
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
+          end
+
+          integer i;
+          initial begin
+              for (i = 0; i < 8; i = i + 1) begin
+                  #1 in = i;
+              end
+          end
+      endmodule

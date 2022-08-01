@@ -1,0 +1,59 @@
+- id: 7
+  name: "4位2进制计数器"
+  description: |-
+    生成一个4位二进制计数器，其计数范围为0到15（包括 0 和 15），周期为 16。
+    同步的复位信号将计数器复位为0。（当reset信号为active的时候，寄存器在下一个时钟沿到来之后被复位。）
+  description_input: |-
+    - `clk`: 1bit
+    - `reset`: 1bit
+  description_output: |-
+    - `q`: 4bit
+
+  top_module: "four_bit_counter"
+  signals: ["clk","reset","q"]
+
+  code_template: |-
+    module four_bit_counter(
+        input clk,
+        input reset,     
+        output [3:0] q
+    );
+        // 在这里输入你的代码 请不要修改模块和信号名称
+    endmodule
+  code_reference: |-
+    module four_bit_counter(
+        input clk,
+        input reset,     
+        output [3:0] q
+    );
+        always@(posedge clk) begin
+            if(!reset)
+            	q <= q + 1'b1;
+            else
+              q <= 4'b0;
+        end
+    endmodule
+  code_testbenches:
+    - |-
+      module testbench();
+          reg clk;
+          reg reset;
+          wire [3:0] q;
+          four_bit_counter FBC(clk, reset, q);
+          
+          initial begin
+              $dumpfile(`DUMP_FILE_NAME);
+              $dumpvars;
+          end
+
+          initial begin
+              clk = 0; reset = 1;
+              #3 reset = ~reset;
+              #7 reset = ~reset;
+              #3 reset = ~reset;
+          end
+
+          always begin
+              #1 clk = ~clk;
+          end
+      endmodule
