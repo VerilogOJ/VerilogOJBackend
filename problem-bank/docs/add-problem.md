@@ -31,6 +31,7 @@ https://yaml-multiline.info/
     - `code_testbenches` 测试矢量（多行字符串列表）
         - 一个测试矢量表示一个测试点
         - 测试矢量的模块名称必须为`testbench`
+        - 在结束testbench的时候 需要添加`$finish` 否则仿真会无法结束
         - 需要在其中添加下面的代码确保后台分析工具成功生成波形文件
             ```verilog
             initial begin
