@@ -32,7 +32,7 @@
         assign out = ~(a ^ b);
     endmodule
 
-  testbenches:
+  code_testbenches:
     - |-
       module testbench();
           reg a;

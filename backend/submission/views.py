@@ -412,6 +412,21 @@ class SubmitView(APIView):
                             google_sta_report = google_stareport,
                             google_error = google_possible_failure,
                         )
+                    else: # 服务器错误或验证出错
+                        google_resourcesreport = ""
+                        google_defaultsvg = ""
+                        google_130nmsvg = ""
+                        google_stareport = ""
+                        google_responselog = ""
+                        google_possible_failure = json.loads(response_google.content)
+                        google_alldata = GoogleLibraryMapping.objects.create(
+                            google_log = google_responselog,
+                            google_resources_report = google_resourcesreport,
+                            google_130nm_svg = google_130nmsvg,
+                            google_default_svg = google_defaultsvg,
+                            google_sta_report = google_stareport,
+                            google_error = google_possible_failure,
+                        )
                     print(f"[mysuccessed]")
                     print(f'[mylog] {response_net["log"]}')
                     if response["is_correct"]:
