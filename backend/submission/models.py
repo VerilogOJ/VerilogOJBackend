@@ -18,7 +18,7 @@ class GoogleLibraryMapping(models.Model):
     google_yosys_svg = models.TextField(help_text="yosys元件库生成电路图",blank=True)
     google_resources_report = models.TextField(help_text="google130nm元件库资源占用报告",blank=True)
     google_130nm_svg = models.TextField(help_text="google130nm元件库生成电路图",blank=True)
-    google_default_svg = models.TextField(help_text="netlistsvg默认库生成电路图",blank=)
+    google_default_svg = models.TextField(help_text="netlistsvg默认库生成电路图",blank=True)
     google_sta_report = models.TextField(help_text="google130nm元件库生成时序报告",blank=True)
     google_error = models.TextField(help_text="google130nm元件库错误",blank=True)
 
