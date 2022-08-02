@@ -418,7 +418,7 @@ class SubmitView(APIView):
                         google_130nmsvg = ""
                         google_stareport = ""
                         google_responselog = ""
-                        google_possible_failure = json.loads(response_google.content)
+                        google_possible_failure = response_google.content
                         google_alldata = GoogleLibraryMapping.objects.create(
                             google_log = google_responselog,
                             google_resources_report = google_resourcesreport,
