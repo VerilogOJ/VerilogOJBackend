@@ -12,6 +12,15 @@ class LibraryMapping(models.Model):
     log = models.TextField(help_text="元件库log",blank=True)
     mapping_error = models.TextField(help_text="元件库错误",blank=True)
 
+class GoogleLibraryMapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    google_log = models.TextField(help_text="google130nm元件库log",blank=True)
+    google_yosys_svg = models.TextField(help_text="yosys元件库生成电路图",blank=True)
+    google_resources_report = models.TextField(help_text="google130nm元件库资源占用报告",blank=True)
+    google_130nm_svg = models.TextField(help_text="google130nm元件库生成电路图",blank=True)
+    google_default_svg = models.TextField(help_text="netlistsvg默认库生成电路图",blank=)
+    google_sta_report = models.TextField(help_text="google130nm元件库生成时序报告",blank=True)
+    google_error = models.TextField(help_text="google130nm元件库错误",blank=True)
 
 class Submission(models.Model):
     id = models.AutoField(primary_key=True, help_text='提交ID')
@@ -116,8 +125,10 @@ class SubmissionResult(models.Model):
     logic_circuit_data = models.TextField(help_text='逻辑级电路图（由用户上传的verilog代码生成）', blank=True) # svg也是文字哦
     logic_circuit_possible_error = models.TextField(help_text='逻辑电路图生成过程中错误', blank=True)
     yosys_cmos_result = models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="yosys_cmos_result")
-    google_130nm_result = models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="google_130nm_result")
-    xilinx_fpga_result = models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='yosys_cmos元件库生成电路图和资源报告',related_name="xilinx_fpga_result")
+    google_130nm_result = models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='google_130nm元件库生成电路图和资源报告',related_name="google_130nm_result")
+    xilinx_fpga_result = models.ForeignKey(LibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='xilinx_fpga元件库生成电路图和资源报告',related_name="xilinx_fpga_result")
+    google_data = models.ForeignKey(GoogleLibraryMapping,on_delete=models.SET_NULL,null=True,blank=True,help_text='google_130nm元件库生成电路图,资源报告和时序分析',related_name="google_data")
+    
     class Meta:
         unique_together = (('submission', 'testcase'),)
     
