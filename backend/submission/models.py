@@ -78,7 +78,7 @@ class SubmissionResult(models.Model):
     ]
 
     status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES,
+        max_length=128, choices=STATUS_CHOICES,
         help_text='The current status of this submission result'
     )
 
@@ -94,7 +94,7 @@ class SubmissionResult(models.Model):
     ]
 
     possible_failure = models.CharField(
-        max_length=64, choices=POSSIBLE_FAILURE_CHOICES,
+        max_length=128, choices=POSSIBLE_FAILURE_CHOICES,
         help_text='Possible failure of this submission result'
     )
 

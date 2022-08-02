@@ -17,7 +17,7 @@ class Topic(models.Model):
         help_text='讨论相关题目'
     )
 
-    title = models.CharField(max_length=50,help_text='讨论标题')
+    title = models.CharField(max_length=128,help_text='讨论标题')
     description = models.TextField(help_text='讨论内容描述（文字）')
 
     def get_comments(self):

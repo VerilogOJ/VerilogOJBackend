@@ -8,7 +8,7 @@ class User(AbstractUser):
         help_text='邮箱是否已经被验证（目前没用）'
     )
     student_id = models.CharField(
-        max_length=10, null=True, blank=True,
+        max_length=64, null=True, blank=True,
         help_text='学生ID，标记是否经过统一身份验证'
     )
     
