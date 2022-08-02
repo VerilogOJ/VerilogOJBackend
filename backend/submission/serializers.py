@@ -1,5 +1,6 @@
+from dataclasses import field
 from rest_framework import serializers
-from .models import Submission, SubmissionResult, LibraryMapping
+from .models import Submission, SubmissionResult, LibraryMapping, GoogleLibraryMapping
 from problem.serializers import ProblemSerializer, ProblemListSerializer
 from user.serializers import UserSerializer, UserPublicSerializer, UserPublicListSerializer
 
@@ -8,12 +9,18 @@ class LibraryMappingSerializer(serializers.ModelSerializer):
         model = LibraryMapping
         fields = '__all__'
 
+class GoogleLibraryMappingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoogleLibraryMapping
+        fields = '__all__'
+
 class SubmissionResultSerializer(serializers.ModelSerializer):
     result = serializers.CharField(source='get_result', read_only=True)
 
     library_mapping_yosys_cmos = LibraryMappingSerializer(source='yosys_cmos_result', read_only=True)
     library_mapping_google_130nm = LibraryMappingSerializer(source='google_130nm_result', read_only=True)
     library_mapping_xilinx_fpga = LibraryMappingSerializer(source='xilinx_fpga_result', read_only=True)
+    google_alldata = GoogleLibraryMappingSerializer(source='google_data',read_only=True)
     
     class Meta:
         model = SubmissionResult

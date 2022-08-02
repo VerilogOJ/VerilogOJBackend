@@ -13,7 +13,7 @@ from rest_framework.viewsets import GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 
-from .models import Submission, SubmissionResult, File, LibraryMapping
+from .models import Submission, SubmissionResult, File, LibraryMapping, GoogleLibraryMapping
 from .serializers import SubmissionSerializer, SubmissionResultSerializer
 from .serializers import SubmissionPublicSerializer, SubmissionResultPublicSerializer
 from .serializers import SubmissionPublicListSerializer
@@ -374,6 +374,44 @@ class SubmitView(APIView):
                             log=library_mapping_log,
                             mapping_error=library_mapping_possible_failure,
                         )
+                    
+                    request_googledata = {
+                        "verilog_sources": [code_student],
+                        "top_module": top_module,
+                    }
+                    response_google = requests.post(url=url, data=json.dumps(request_googledata),headers={"Host": "verilogojservices.google130nmkit"})
+                    if response_google.status_code == 200:
+                        response_gg = json.loads(response_google.content)
+                        google_resourcesreport = response_gg["resources_report"]
+                        google_defaultsvg = response_gg["netlistsvg_default"]
+                        google_130nmsvg = response_gg["netlistsvg_google130nm"]
+                        google_stareport = response_gg["sta_report"]
+                        google_responselog = response_gg["log"]
+                        google_possible_failure = ""
+                        google_alldata = GoogleLibraryMapping.objects.create(
+                            google_log = google_responselog,
+                            google_resources_report = google_resourcesreport,
+                            google_130nm_svg = google_130nmsvg,
+                            google_default_svg = google_defaultsvg,
+                            google_sta_report = google_stareport,
+                            google_error = google_possible_failure,
+                        )
+                    elif response_google.status_code == 400:
+                        response_gg = json.loads(json.loads(response_google.content)["detail"])
+                        google_resourcesreport = ""
+                        google_defaultsvg = ""
+                        google_130nmsvg = ""
+                        google_stareport = ""
+                        google_responselog = response_gg["log"]
+                        google_possible_failure = response_gg["error"]
+                        google_alldata = GoogleLibraryMapping.objects.create(
+                            google_log = google_responselog,
+                            google_resources_report = google_resourcesreport,
+                            google_130nm_svg = google_130nmsvg,
+                            google_default_svg = google_defaultsvg,
+                            google_sta_report = google_stareport,
+                            google_error = google_possible_failure,
+                        )
                     print(f"[mysuccessed]")
                     print(f'[mylog] {response_net["log"]}')
                     if response["is_correct"]:
@@ -390,6 +428,7 @@ class SubmitView(APIView):
                             yosys_cmos_result = yosys_cmos_library_mapping,
                             google_130nm_result = google_130nm_library_mapping,
                             xilinx_fpga_result = xilinx_fpga_library_mapping,
+                            google_data = google_alldata,
                         ).save()
                     else:
                         SubmissionResult.objects.create(
